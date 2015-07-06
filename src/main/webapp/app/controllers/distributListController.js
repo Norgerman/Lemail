@@ -103,6 +103,10 @@ LeMailModule.controller('distributListController',
         });
     };
 
+    $scope.$on('$viewContentLoaded', function() {
+        alert('1');
+    });
+
     $scope.distribute = function(mail_id){
       $location.path('/dispatcher/distribute/'+mail_id)
     };
