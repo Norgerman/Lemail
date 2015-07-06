@@ -1,58 +1,78 @@
 /**
  * Created by vvliebe on 15-7-5.
  */
-LeMailModule.controller('distributeListController',  ['$scope','$http',function($scope, $http){
-    $scope.mail = {
-        id : 1,
-        subject: "唐山铁魂有限公司：手机模型材料不足需延迟提交",
-        state: 0,
-        date: "2015-07-05 12:00:00",
-        attachment: "这是附件",
-        from: "lilelr@163.com",
-        review: 0,
-        tag: "延期",
-        content : "小熊把您的邮件转交给徐宇楠",
-        belong : {
-            id : 1,
-            name : "侠客"
-        },
-        readers : []
-    };
+LeMailModule.controller('distributeListController',
+    ['$scope','$http','$sce','$routeParams','$location',
+    function($scope, $http, $sce, $routeParams, $location){
+    $scope.mail_id = 0;
+    $scope.mail = {};
 
     $scope.selectedHandler = null;
     $scope.selectedUsers = [];
+    $scope.users = [];
 
-    $scope.handler = null;
-    $scope.users = [
-        {id: 1, name:"侠客"},
-        {id: 2, name:"熊"},
-        {id: 3, name:"孙猴子"},
-        {id: 4, name:"李很乐"},
-        {id: 5, name:"马涛涛"},
-        {id: 6, name:"大爽"},
-        {id: 7, name:"monkey"},
-        {id: 8, name:"孙芙媛"},
-        {id: 9, name:"童××"}
-    ];
+    Array.prototype.removeAt=function(index){
+        this.splice(index,1);
+    };
+    Array.prototype.remove=function(obj){
+        var index=this.indexOf(obj);
+        if (index>=0){
+            this.removeAt(index);
+        }
+    };
 
     $scope.selectHandler = function(user){
         console.log(user);
-        $scope.selectedHandler = user;
+        if (user) {
+            $scope.selectedHandler = user;
+            $scope.users.remove(user);
+            console.log($scope.users);
+        } else {
+            $scope.users.push($scope.selectedHandler);
+            $scope.selectedHandler = user;
+        }
     };
 
     $scope.selectUser = function(user) {
-        console.log(user);
+        console.log('user',user);
         $scope.selectedUsers.push(user);
+        $scope.users.remove(user);
         $scope.showClick = true;
     };
 
     $scope.deleteUser = function(index) {
+        $scope.users.push($scope.selectedUsers[index]);
         $scope.selectedUsers.splice(index, 1);
         $scope.showClick = true;
     };
 
     $scope.onDistribute = function(){
-
+        console.log($scope.selectedUsers);
+        var readers = '';
+        for (var i = 0; i <$scope.selectedUsers.length; ++i) {
+            readers = readers.concat($scope.selectedUsers[i].id + '|');
+        }
+        var handler = null;
+        if ($scope.selectedHandler) {
+            handler = $scope.selectedHandler.id;
+        }
+        readers=readers.substring(0,readers.length-1);
+        $http({
+            url: '/api/dispatcher/dispatch',
+            method: 'POST',
+            params: {
+                id: $scope.mail_id,
+                handler : handler,
+                review  : false,
+                readers : readers
+            }
+        }).success(function(response){
+            if (response.status == 0) {
+                $location.path('/dispatcher');
+            }
+        }).error(function(response){
+            console.log(response);
+        });
     };
 
     $scope.addClick = function () {
@@ -60,12 +80,29 @@ LeMailModule.controller('distributeListController',  ['$scope','$http',function(
     };
 
     $scope.showClick = true;
-
+    $scope.selectedUser = 0;
     $scope.onPageLoad = function(){
+        $scope.mail_id = $routeParams.mail_id;
+
         $http.get('/api/dispatcher/handlers'
         ).success(function(response){
             if (response.status == 0)
                 $scope.users = response.data;
+            else
+                alert(response.message);
+        }).error(function(response){
+            console.log(response);
+        });
+
+        $http({
+            url: '/api/dispatcher/detail',
+            method: 'GET',
+            params: { id: $scope.mail_id }
+        }).success(function(response){
+            if (response.status == 0) {
+                $scope.mail = response.data;
+                $scope.mail.content = $sce.trustAsHtml($scope.mail.content);
+            } else alert(response.message);
         }).error(function(response){
             console.log(response);
         });

@@ -2,7 +2,8 @@
  * Created by sxf on 15-7-4.
  */
 
-LeMailModule.controller('distributListController', ['$scope','$http','$location',function($scope, $http, $location){
+LeMailModule.controller('distributListController',
+    ['$scope','$http','$location',function($scope, $http, $location){
     $scope.sum_mail = 3;
     $scope.messages = [
         {
@@ -102,8 +103,8 @@ LeMailModule.controller('distributListController', ['$scope','$http','$location'
         });
     };
 
-    $scope.distribute = function(){
-      $location.path('/dispatcher/distribute')
+    $scope.distribute = function(mail_id){
+      $location.path('/dispatcher/distribute/'+mail_id)
     };
 
     $scope.inform = function($event){

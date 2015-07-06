@@ -5,7 +5,9 @@
             <span class="grey" ng-bind="sidebarItems[key]['title']"></span>
         </div>
         <li ng-repeat="item in sidebarItems[key]['item']">
-            <a class="white" ng-href="{{sidebarItems[key]['url'][$index]}}"><span>{{item}}</span></a>
+            <a class="white" ng-href="{{sidebarItems[key]['url'][$index]}}">
+                <span><i class="fa fa-envelope"></i> {{item}}</span>
+            </a>
             <!--<a class="white" ng-click="changeMainContent(sidebarItems[key]['url'][$index])">{{item}}</a>-->
         </li>
     </ul>
