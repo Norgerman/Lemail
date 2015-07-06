@@ -32,7 +32,7 @@ LeMailModule.controller('distributeListController',  ['$scope','$http',function(
         {id: 6, name:"大爽"},
         {id: 7, name:"monkey"},
         {id: 8, name:"孙芙媛"},
-        {id: 8, name:"童××"}
+        {id: 9, name:"童××"}
     ];
 
     $scope.selectHandler = function(user){
@@ -62,6 +62,12 @@ LeMailModule.controller('distributeListController',  ['$scope','$http',function(
     $scope.showClick = true;
 
     $scope.onPageLoad = function(){
-
+        $http.get('/api/dispatcher/handlers'
+        ).success(function(response){
+            if (response.status == 0)
+                $scope.users = response.data;
+        }).error(function(response){
+            console.log(response);
+        });
     }
 }]);

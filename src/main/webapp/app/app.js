@@ -89,13 +89,13 @@ LeMailModule.controller('LeMailController',
         $http({
             url: '/api/user/logout',
             method: 'POST'
-        }).success(function(response, status, headers, config){
+        }).success(function(response){
             console.log(response);
             if(response.status == 0){
                 $location.path("/login");
                 $scope.title = "登陆";
             }
-        }).error(function(response, status, headers, config){
+        }).error(function(response){
 
         });
     };
