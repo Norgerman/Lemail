@@ -17,6 +17,13 @@ LeMailModule.controller('usersController',
         $scope.user = {};
         $scope.onSave = function () {
             $scope.user.department_id = $scope.selectedDepartment.id;
+            var role_str = '';
+            if ($scope.roles.manager == 1) role_str = role_str.concat('M');
+            if ($scope.roles.dispatcher == 1) role_str = role_str.concat('D');
+            if ($scope.roles.handler == 1) role_str = role_str.concat('H');
+            if ($scope.roles.reviewer == 1) role_str = role_str.concat('R');
+            $scope.user.role = role_str;
+            console.log($scope.selectedDepartment);
             console.log($scope.user);
             $http({
                 url: '/api/manager/signup',
@@ -46,6 +53,10 @@ LeMailModule.controller('usersController',
 
         $scope.department = [];
         $scope.selectedDepartment = {};
+        $scope.roles = {};
+        $scope.select = function (selected) {
+            $scope.selectedDepartment = selected;
+        };
 
         $scope.onPageLoad = function() {
             $scope.message = '';

@@ -10,12 +10,12 @@
                 <div class="col-sm-12">
                     <input type="text" ng-required="true" ng-minlength="3" name="username" id="username" ng-model="userinfo.username"
                            placeholder="请输入用户名"/>
-                    <p ng-show="userForm.username.$invalid && !userForm.username.$dirty && submitted" class="help-block">用户名不少于6位</p>
+                    <p ng-show="userForm.username.$invalid && !userForm.username.$dirty && submitted" class="help-block">用户名不少于3位</p>
                 </div>
                 <div class="col-sm-12">
                     <input type="password" ng-required="true" ng-minlength="3" name="password" id="password" ng-model="userinfo.password"
                            placeholder="请输入密码"/>
-                    <p ng-show="userForm.password.$invalid && !userForm.password.$dirty && submitted" class="help-block">密码不少于6位</p>
+                    <p ng-show="userForm.password.$invalid && !userForm.password.$dirty && submitted" class="help-block">密码不少于3位</p>
                 </div>
                 <div class="col-sm-12">
                     <button type="submit" id="submit-btn" class="col-sm-push-9 col-sm-3">登录</button>
