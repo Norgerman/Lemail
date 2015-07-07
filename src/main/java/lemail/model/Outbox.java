@@ -150,7 +150,7 @@ public class Outbox implements Serializable {
         str = String.format("{\"id\":%d, \"subject\":\"%s\", \"content\":\"%s\"," +
                         "\"state\":%d, \"date\":\"%s\", \"attachment\":%s, \"to\":\"%s\"," +
                         "\"tag\":%s,\"checker\":%s}",
-                id, subject, content, state, format.format(date), tmp_attach, to, tmp_tag, formatChecker());
+                id, subject, content.replaceAll("\\r?\\n", "\\\\n").replaceAll("\"", "\\\\\""), state, format.format(date), tmp_attach, to, tmp_tag, formatChecker());
         return str;
     }
 
