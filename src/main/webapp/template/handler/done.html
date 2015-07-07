@@ -18,7 +18,7 @@
             <div class="row">
                 <h4>邮件</h4>
                 <table class="table table-hover list-table">
-                    <tr ng-repeat="mail in mail_list">
+                    <tr ng-repeat="mail in mail_list" ng-click="onselect(mail.id)">
                         <td>{{ mail.from }}</td>
                         <td>{{ mail.subject }}</td>
                         <td>{{ mail.date }}</td>
