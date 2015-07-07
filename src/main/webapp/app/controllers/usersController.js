@@ -16,6 +16,8 @@ LeMailModule.controller('usersController',
         $scope.message = '';
         $scope.user = {};
         $scope.onSave = function () {
+            $scope.user.department_id = $scope.selectedDepartment.id;
+            console.log($scope.user);
             $http({
                 url: '/api/manager/signup',
                 method: 'POST',
