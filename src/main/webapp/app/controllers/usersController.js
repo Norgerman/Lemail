@@ -4,8 +4,7 @@
 
 LeMailModule.controller('usersController',
     ['$scope','$http','$location','ngDialog', function($scope, $http, $location, ngDialog) {
-        $scope.message = '';
-        $scope.user = {};
+
         $scope.users = [{
             "id": 1,
             "username": "asdd",
@@ -14,11 +13,65 @@ LeMailModule.controller('usersController',
             "checker": null
         }];
 
+        $scope.message = '';
+        $scope.user = {};
+        $scope.onSave = function () {
+            $http({
+                url: '/api/manager/signup',
+                method: 'POST',
+                params: $scope.user
+            }).success(function(response, status, headers, config){
+                console.log(response);
+                if (response.status == 0){
+                    $scope.message = "保存成功";
+                    ngDialog.closeAll();
+                }else{
+                    $scope.message = response.message;
+                }
+            }).error(function(response, status, headers, config){
+                console.log(response);
+            });
+            $scope.user = {};
+        };
+
         $scope.clickToOpen = function () {
             ngDialog.open({
                 template: '/template/signup.html',
                 className: 'ngdialog-theme-default',
                 scope: $scope
+            });
+        };
+
+        $scope.department = [];
+
+        $scope.onPageLoad = function() {
+            $scope.message = '';
+            $http({
+                url: '/api/manager/user',
+                method: 'GET'
+            }).success(function(response, status, headers, config){
+                console.log(response);
+                if (response.status == 0){
+                    $scope.users = response.data.list;
+                }else{
+                    alert(response.message);
+                }
+            }).error(function(response, status, headers, config){
+                console.log(response);
+            });
+
+            $http({
+                url: '/api/manager/department',
+                method: 'GET'
+            }).success(function(response, status, headers, config){
+                console.log(response);
+                if (response.status == 0){
+                    $scope.department = response.data;
+                }else{
+                    alert(response.message);
+                }
+            }).error(function(response, status, headers, config){
+                console.log(response);
             });
         };
     }]);

@@ -29,7 +29,7 @@ LeMailModule.controller('managerConfController',
             }).error(function(response, status, headers, config){
                 console.log(response);
             });
-        }
+        };
 
         $scope.onPageLoad = function() {
             $scope.message = '';
