@@ -2,6 +2,7 @@ body{
     background-color: #ffffff;
 }
 
+
 .LeMail-label{
     font-family: "Arial";
     color: #4C4C4C;
@@ -9,6 +10,7 @@ body{
     position: absolute;
     top: 22%;
     left: 150px;
+    height: 15%;
     text-shadow: 2px 2px 4px #000000;
 }
 
@@ -61,7 +63,7 @@ body{
     padding: 10px;
     background-color: blue;
     color: white;
-    border-radius: 0px;
+    border-radius: 0;
     outline: none;
     border: none;
 }

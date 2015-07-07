@@ -20,6 +20,7 @@
         <label>所属部门</label>
         <select ng-model="selectedDepartment"
                 ng-options="dep as dep.name for dep in department"
+                ng-change="select(selectedDepartment)"
                 style="width: 100px" >
             <option></option>
         </select>
@@ -28,19 +29,19 @@
     <div class="form-group">
         <label>权限： </label>
         <label>
-            <input type="checkbox" ng-model="u.roles.dispatcher"> 分发
+            <input type="checkbox" ng-model="roles.dispatcher"> 分发
         </label>
         &nbsp;
         <label>
-            <input type="checkbox" ng-model="u.roles.handler"> 处理
+            <input type="checkbox" ng-model="roles.handler"> 处理
         </label>
         &nbsp;
         <label>
-            <input type="checkbox" ng-model="u.roles.reviewer"> 审核
+            <input type="checkbox" ng-model="roles.reviewer"> 审核
         </label>
         &nbsp;
         <label>
-            <input type="checkbox" ng-model="u.roles.manager"> 管理
+            <input type="checkbox" ng-model="roles.manager"> 管理
         </label>
     </div>
 
