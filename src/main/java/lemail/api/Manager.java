@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class Manager {
 
-    public String departmentList() {
+    public String department() {
         try {
             checkRole();
             List<Department> deps = DBSession.find_list(Department.class);
