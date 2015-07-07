@@ -79,7 +79,7 @@ public class Mail {
 
         // Setting the Subject and Content Type
         msg.setSubject(subject);
-        msg.setContent(content, "text/plain;charset=UTF-8");
+        msg.setContent(content, "text/html;charset=UTF-8");
         Transport.send(msg);
     }
 

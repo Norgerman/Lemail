@@ -5,7 +5,7 @@
     <div ng-include="'/template/common/sidebar.html'"></div>
 
     <div class="content-div">
-        <div class="dis-main" ng-controller="todoListController" ng-init="onPageLoad()">
+        <div class="dis-main" ng-controller="sendListController" ng-init="onPageLoad()">
             <!--统计栏-->
             <div class="row">
                 <h3>共 {{sum_mail}} 封邮件</h3>
@@ -14,26 +14,12 @@
                 </div>
             </div>
 
-            <!--通知栏-->
-            <div class="row">
-                <h4>通知</h4>
-                <table class="table table-hover list-table">
-                    <tr ng-repeat="msg in messages">
-                        <td>{{ msg.label }}</td>
-                        <td>{{ msg.content }}</td>
-                        <td class="text-right">
-                            <button class="btn-primary">查看</button></td>
-                    </tr>
-                </table>
-            </div>
-
             <!--邮件列表-->
             <div class="row">
                 <h4>邮件</h4>
                 <table class="table table-hover list-table">
-                    <tr ng-repeat="mail in mail_list"
-                        ng-class="{'list-table-unread':mail.state==2}">
-                        <td>{{ mail.from }}</td>
+                    <tr ng-repeat="mail in mail_list" ng-click="onselect(mail.id)">
+                        <td>{{ mail.to }}</td>
                         <td>{{ mail.subject }}</td>
                         <td>{{ mail.date }}</td>
                     </tr>

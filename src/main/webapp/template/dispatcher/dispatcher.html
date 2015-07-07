@@ -4,7 +4,8 @@
     <div class="row">
         <h3>共 {{sum_mail}} 封邮件</h3>
         <div class="pull-right dis-list-new-btn">
-            <button class="btn btn-primary">写信</button>
+            <button class="btn btn-primary" ng-click="onWriteNew()">
+                <i class="fa fa-pencil-square-o"></i> 写信</button>
         </div>
     </div>
 
@@ -26,11 +27,11 @@
         <h4>邮件</h4>
         <table class="table table-hover list-table">
             <tr ng-repeat="mail in mail_list"
-                ng-class="{'list-table-unread':mail.state==0}" ng-click="distribute()">
+                ng-class="{'list-table-unread':mail.state==0}" ng-click="distribute(mail.id)">
                 <td>{{ mail.from }}</td>
                 <td>{{ mail.subject }}</td>
                 <td>{{ mail.date }}</td>
-                <td>{{ mail.belong_user_id }}</td>
+                <td>{{ mail.belong.name }}</td>
                 <td class="text-right">
                     <button class="btn-primary" ng-click="inform($event)">通知</button>
                 </td>

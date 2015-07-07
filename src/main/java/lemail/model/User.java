@@ -137,10 +137,9 @@ public class User implements Serializable {
 
     public String toJson() {
         String str;
-        String checker;
-        int[] roles = parseRole();
+        boolean[] roles = parseRole();
         str = String.format("{\"id\":%d, \"username\":\"%s\", \"name\":\"%s\"," +
-                        "\"roles\":{\"manager\":%d, \"dispatcher\":%d, \"handler\":%d, \"reviewer\":%d}," +
+                        "\"roles\":{\"manager\":%b, \"dispatcher\":%b, \"handler\":%b, \"reviewer\":%b}," +
                         "\"checker\":%s}",
                 id, username, name,
                 roles[0], roles[1], roles[2], roles[3],
@@ -157,22 +156,22 @@ public class User implements Serializable {
         return role.contains(name);
     }
 
-    private int[] parseRole() {
-        int[] roles = new int[4];
+    private boolean[] parseRole() {
+        boolean[] roles = new boolean[4];
         for (int i = 0; i < 4; i++) {
-            roles[i] = 0;
+            roles[i] = false;
         }
         if (role.contains("M")) {
-            roles[0] = 1;
+            roles[0] = true;
         }
         if (role.contains("D")) {
-            roles[1] = 1;
+            roles[1] = true;
         }
         if (role.contains("H")) {
-            roles[2] = 1;
+            roles[2] = true;
         }
         if (role.contains("R")) {
-            roles[3] = 1;
+            roles[3] = true;
         }
         return roles;
     }

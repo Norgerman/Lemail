@@ -18,7 +18,7 @@ public class AutoMail {
     private Mail mail = null;
     private static AutoMail autoMail = new AutoMail();
 
-    private Date last = new Date();
+    private Date last;
 
     // 需要保障这三个字段中都不存在回车
     private String username = "";
@@ -56,8 +56,13 @@ public class AutoMail {
      */
     public void Update() throws Exception {
         Date now = new Date();
-        if (now.getTime() - last.getTime() < 600 * 1000) return;
-        last = now;
+        if(last != null) {
+            if (now.getTime() - last.getTime() < 600 * 1000) return;
+            last = now;
+        }
+        else {
+            last = new Date();
+        }
 
         mail = new Mail(username, password, hostname, hostname_send);
         Message[] msgs = mail.getBox("INBOX");

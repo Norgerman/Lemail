@@ -12,6 +12,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -37,16 +38,18 @@ public class Handler {
     public String getDetail() {
         try {
             checkUser();
+            int uid = (Integer) Action.getSession("uid");
             Inbox mail = (Inbox) DBSession.find_first(
                     Inbox.class, Restrictions.eq("id", id));
-            if (mail.getState() == 2 || mail.getState() == 6) {
+            if ( mail.getHandler()!=null && mail.getHandler().getId() == uid &&
+                    (mail.getState() == 2 || mail.getState() == 6)) {
                 mail.setState(3);
                 Session s = DBSession.getSession();
                 s.beginTransaction();
                 s.update(mail);
                 s.getTransaction().commit();
             }
-            Action.echojson(0, "success", mail.toJson());
+            Action.echojson(0, "success", mail.toJson(uid));
             return null;
         } catch (ApiException e) {
             e.printStackTrace();
@@ -66,10 +69,10 @@ public class Handler {
             int uid = (Integer) Action.getSession("uid");
             if (page == null)
                 page = 0;
-            Action.echojson(0, "success", getList("from Inbox", page * 10, 10,
-                    "order by date desc",
-                    new Condition("belong", "handler.id = :belong", uid),
-                    new Condition("states", "state in (:states)", Arrays.asList(2, 3, 6))));
+            Condition[] conditions = {new Condition("belong", "handler.id = :belong", uid),
+                    new Condition("states", "state in (:states)", Arrays.asList(2, 3, 6))};
+            Action.echojson(0, "success", formatInboxList(getList("from Inbox", page * 10, 10,
+                    "order by date desc", conditions), 0, -1, conditions));
             return null;
         } catch (ApiException e) {
             e.printStackTrace();
@@ -80,16 +83,18 @@ public class Handler {
         }
     }
 
-    public String getHandled() {
+    public String getAll() {
         try {
             checkUser();
             int uid = (Integer) Action.getSession("uid");
+            User u = getUser();
             if (page == null)
                 page = 0;
-            Action.echojson(0, "success", getList("from Inbox", page * 10, 10,
-                    "order by date desc",
-                    new Condition("belong", "handler.id = :belong", uid),
-                    new Condition("states", "state not in (:states)", Arrays.asList(2, 3, 6))));
+            Condition[] conditions = {new Condition("belong", "handler.id = :belong", uid)};
+            List<Inbox> in = getList("from Inbox", page * 10, 10,
+                    "order by date desc", conditions);
+            in.addAll(u.getMails());
+            Action.echojson(0, "success", formatInboxList(in, u.getMails().size(), uid, conditions));
             return null;
         } catch (ApiException e) {
             e.printStackTrace();
@@ -118,7 +123,7 @@ public class Handler {
         }
     }
 
-    public String getOutboxList() {
+    public String getOutbox() {
         try {
             checkUser();
             if (page == null)
@@ -165,6 +170,7 @@ public class Handler {
                     o.setState(7);
                     AutoMail.getInstance().post(subject, content, to.split(","));
                 }
+                o.setReply(in);
                 s.beginTransaction();
                 s.save(o);
                 s.update(in);
@@ -228,13 +234,17 @@ public class Handler {
         if (!role.contains("H")) throw new ApiException(403, "用户缺少处理者权限");
     }
 
-    private String getList(String sql, int offset, int max, String order, Condition... conditions) {
-        List<Inbox> inboxMails = DBSession.executeSql(sql, offset, max, order, conditions);
-        int count = DBSession.count("Inbox", conditions);
+    private List<Inbox> getList(String sql, int offset, int max, String order, Condition... conditions) {
+        return DBSession.executeSql(sql, offset, max, order, conditions);
+    }
+
+    private String formatInboxList(List<Inbox> inboxMails, int addition, int uid, Condition... conditions) {
+        int count = DBSession.count("Inbox", conditions) + addition;
         StringBuilder sb = new StringBuilder();
         sb.append("{\"list\":[");
+        inboxMails.sort((a, b) -> b.getDate().compareTo(a.getDate()));
         for (Inbox itememail : inboxMails) {
-            sb.append(itememail.toJsonNoData());
+            sb.append(itememail.toJsonNoData(uid));
             sb.append(',');
         }
         if (sb.length() > 9) {

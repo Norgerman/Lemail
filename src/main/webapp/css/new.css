@@ -1,3 +1,19 @@
 .new-main {
-     margin:60px 100px;
+     margin:20px 100px;
 }
+
+.add-btn {
+     cursor: pointer;
+}
+
+.new-red {
+     color: #a94442;
+     border-color: #a94442;
+}
+
+.new-red:focus {
+     border-color: #d39f8b;
+     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset,
+          0 0 8px rgba(211, 86, 84, 0.60);
+}
+

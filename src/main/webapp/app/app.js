@@ -2,7 +2,7 @@
  * Created by vvliebe on 6/29/15.
  */
 
-var LeMailModule = angular.module('LeMailModule', ['ngRoute','ngSanitize', 'ui.select', 'textAngular', 'ui.bootstrap']);
+var LeMailModule = angular.module('LeMailModule', ['ngRoute','ngSanitize', 'ui.select', 'textAngular', 'ui.bootstrap', 'ngDialog']);
 
 LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider, $httpProvider){
     if (!$httpProvider.defaults.headers.get) {
@@ -25,12 +25,20 @@ LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider
         templateUrl: '/template/handler/todo.html'
     }).when('/handler/done',{
         templateUrl: '/template/handler/done.html'
+    }).when('/handler/send',{
+        templateUrl: '/template/handler/send.html'
     }).when('/handler/new',{
         templateUrl: '/template/handler/new.html'
     }).when('/manager',{
         templateUrl: '/template/manager.html'
-    }).when('/dispatcher/distribute',{
+    }).when('/signup',{
+        templateUrl: '/template/users.html'
+    }).when('/dispatcher/distribute/:mail_id',{
         templateUrl: '/template/dispatcher/distribute.html'
+    }).when('/handler/detail/:mail_id',{
+        templateUrl: '/template/handler/detail.html'
+    }).when('/handler/outboxdetail/:mail_id',{
+        templateUrl: '/template/handler/outboxdetail.html'
     }).otherwise({
         templateUrl: '/template/login.html'
     });
@@ -60,25 +68,34 @@ LeMailModule.controller('LeMailController',
     $scope.sidebarItems = {
         dispatcher: {
             title: '分发',
-            item: ['所有邮件'],
-            url: ['/#/dispatcher']
-        },
-        reviewer: {
-            title: '审核',
-            item: ['审核列表'],
-            url: ['/#/reviewer']
+            item : [
+                { name : '所有邮件', url: '/#/dispatcher', icon: 'fa fa-envelope' }
+            ]
         },
         handler: {
             title: '处理',
-            item: ['未处理','已处理','写新邮件'],
-            url: ['/#/handler/todo', '/#/handler/done', '/#/handler/new']
+            item : [
+                { name : '未处理', url: '/#/handler/todo', icon: 'fa fa-bookmark' },
+                { name : '写新邮件', url: '/#/handler/new', icon: 'fa fa-pencil-square-o' },
+                { name : '收件箱', url: '/#/handler/done', icon: 'fa fa-inbox' },
+                { name : '发件箱', url: '/#/handler/send', icon: 'fa fa-share-square' }
+            ]
         },
         manager: {
             title: '管理',
-            item: ['设置'],
-            url: ['/#/manager']
+            item : [
+                { name : '设置', url: '/#/manager', icon: 'fa fa-cog' },
+                { name : '人员管理', url: '/#/signup', icon: 'fa fa-user' }
+            ]
+        },
+        reviewer: {
+            title: '审核',
+            item : [
+                { name : '审核列表', url: '/#/reviewer', icon: 'fa fa-check-circle' }
+            ]
         }
     };
+
 
     $scope.$on('login', function(event,data){
         $scope.user = data;
@@ -89,13 +106,13 @@ LeMailModule.controller('LeMailController',
         $http({
             url: '/api/user/logout',
             method: 'POST'
-        }).success(function(response, status, headers, config){
+        }).success(function(response){
             console.log(response);
             if(response.status == 0){
                 $location.path("/login");
                 $scope.title = "登陆";
             }
-        }).error(function(response, status, headers, config){
+        }).error(function(response){
 
         });
     };
@@ -119,7 +136,7 @@ LeMailModule.controller('LeMailController',
                 } else if ($scope.user.roles["manager"] == 1){
                     firstRole = "manager";
                 }
-                $scope.default_role_url = $scope.sidebarItems[firstRole]['url'][0];
+                $scope.default_role_url = $scope.sidebarItems[firstRole].item[0].url;
                 $scope.$broadcast('changeMainContent', $scope.default_role_url);
             }else if(response.status == 401){
                 $location.path("/login");
