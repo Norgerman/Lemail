@@ -7,7 +7,6 @@
 <struts>
     <package name="user" extends="struts-default" namespace="/api/user">
         <action name="login" class="lemail.api.Auth" method="login"/>
-        <action name="signup" class="lemail.api.Auth" method="signUp"/>
         <action name="logout" class="lemail.api.Auth" method="logout"/>
         <action name="getuser" class="lemail.api.Auth" method="getUser"/>
         <action name="change" class="lemail.api.Auth" method="change"/>
@@ -22,6 +21,9 @@
         <action name="department" class="lemail.api.Manager" method="departmentList"/>
         <action name="setconf" class="lemail.api.Manager" method="setConf"/>
         <action name="getconf" class="lemail.api.Manager" method="getConf"/>
+        <action name="signup" class="lemail.api.Manager" method="signUp"/>
+        <action name="change" class="lemail.api.Manager" method="change"/>
+        <action name="adddepartment" class="lemail.api.Manager" method="addDepartment"/>
     </package>
     <package name="handler" extends="struts-default" namespace="/api/handler">
         <action name="nothandle" class="lemail.api.Handler" method="getNotHandle"/>

@@ -16,10 +16,6 @@ public class Auth {
 
     public String username;
     public String password;
-    public String name;
-    public Integer department_id;
-    public String role;
-    public Integer default_checker;
 
     /**
      * 登录方法
@@ -50,35 +46,6 @@ public class Auth {
     }
 
     /**
-     * 注册新用户
-     */
-    public String signUp() {
-        User u = new User(username, password, name, role, department_id);
-        if (default_checker != null) {
-            u.setChecker((User) DBSession.find_first(User.class, Restrictions.eq("id", default_checker)));
-        }
-        Session s = DBSession.getSession();
-        try {
-            s.beginTransaction();
-            s.save(u);
-            s.getTransaction().commit();
-            Action.setSession("uid", u.getId());
-            Action.setSession("role", u.getRole());
-            Action.echojson(0, "success", u.toJson());
-        } catch (Exception ex) {
-            s.getTransaction().rollback();
-            if (ex instanceof ConstraintViolationException) {
-                Action.error(1002, "用户已存在");
-            } else {
-                Action.error(-1, "未知错误");
-            }
-        } finally {
-            s.close();
-        }
-        return null;
-    }
-
-    /**
      * 获取当前登录用户的详细信息
      */
     public String getUser() {
@@ -92,6 +59,7 @@ public class Auth {
 
     public String new_password;
     public String old_password;
+    public String name;
 
     public String change() {
         Integer uid = (Integer) Action.getSession("uid");
