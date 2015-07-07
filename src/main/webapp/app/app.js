@@ -25,6 +25,8 @@ LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider
         templateUrl: '/template/handler/todo.html'
     }).when('/handler/done',{
         templateUrl: '/template/handler/done.html'
+    }).when('/handler/send',{
+        templateUrl: '/template/handler/send.html'
     }).when('/handler/new',{
         templateUrl: '/template/handler/new.html'
     }).when('/manager',{
@@ -60,26 +62,32 @@ LeMailModule.controller('LeMailController',
     $scope.sidebarItems = {
         dispatcher: {
             title: '分发',
-            item: ['所有邮件'],
-            url: ['/#/dispatcher']
-        },
-        reviewer: {
-            title: '审核',
-            item: ['审核列表'],
-            url: ['/#/reviewer']
+            item : [
+                { name : '所有邮件', url: '/#/dispatcher', icon: 'fa fa-envelope' }
+            ]
         },
         handler: {
             title: '处理',
-            item: ['未处理','已处理','写新邮件'],
-            url: ['/#/handler/todo', '/#/handler/done', '/#/handler/new']
+            item : [
+                { name : '未处理', url: '/#/handler/todo', icon: 'fa fa-bookmark' },
+                { name : '写新邮件', url: '/#/handler/new', icon: 'fa fa-pencil-square-o' },
+                { name : '收件箱', url: '/#/handler/done', icon: 'fa fa-inbox' },
+                { name : '发件箱', url: '/#/handler/send', icon: 'fa fa-share-square' }
+            ]
         },
         manager: {
             title: '管理',
-            item: ['设置'],
-            url: ['/#/manager']
+            item : [
+                { name : '设置', url: '/#/manager', icon: 'fa fa-cog' }
+            ]
+        },
+        reviewer: {
+            title: '审核',
+            item : [
+                { name : '审核列表', url: '/#/reviewer', icon: 'fa fa-check-circle' }
+            ]
         }
     };
-
 
 
     $scope.$on('login', function(event,data){
