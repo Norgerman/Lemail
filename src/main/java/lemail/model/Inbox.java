@@ -179,6 +179,7 @@ public class Inbox implements Serializable {
                         "\"state\":%d, \"date\":\"%s\", \"attachment\":%s, \"from\":\"%s\"," +
                         "\"review\":%s,\"tag\":%s,\"belong\":%s,\"readers\":%s}",
                 id, subject, content.replaceAll("\\n", "\\\\n").replaceAll("\\\"", "\\\\\""), tmp_state, format.format(date), tmp_attach, from, tmp_review, tmp_tag, formatHandler(), formatReaders());
+                id, subject, content.replaceAll("\\r?\\n", "\\\\n").replaceAll("\"","\\\\\""), state, format.format(date), tmp_attach, from, tmp_review, tmp_tag, formatHandler(), formatReaders());
         return str;
     }
 

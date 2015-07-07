@@ -29,7 +29,7 @@ LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider
         templateUrl: '/template/handler/new.html'
     }).when('/manager',{
         templateUrl: '/template/manager.html'
-    }).when('/dispatcher/distribute',{
+    }).when('/dispatcher/distribute/:mail_id',{
         templateUrl: '/template/dispatcher/distribute.html'
     }).otherwise({
         templateUrl: '/template/login.html'
@@ -79,6 +79,8 @@ LeMailModule.controller('LeMailController',
             url: ['/#/manager']
         }
     };
+
+
 
     $scope.$on('login', function(event,data){
         $scope.user = data;
