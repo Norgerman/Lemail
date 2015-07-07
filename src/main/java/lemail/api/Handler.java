@@ -41,7 +41,7 @@ public class Handler {
             int uid = (Integer) Action.getSession("uid");
             Inbox mail = (Inbox) DBSession.find_first(
                     Inbox.class, Restrictions.eq("id", id));
-            if (mail.getHandler().getId() == uid &&
+            if ( mail.getHandler()!=null && mail.getHandler().getId() == uid &&
                     (mail.getState() == 2 || mail.getState() == 6)) {
                 mail.setState(3);
                 Session s = DBSession.getSession();
