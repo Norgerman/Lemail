@@ -129,7 +129,7 @@ LeMailModule.controller('LeMailController',
                 } else if ($scope.user.roles["manager"] == 1){
                     firstRole = "manager";
                 }
-                $scope.default_role_url = $scope.sidebarItems[firstRole]['url'][0];
+                $scope.default_role_url = $scope.sidebarItems[firstRole].item[0].url;
                 $scope.$broadcast('changeMainContent', $scope.default_role_url);
             }else if(response.status == 401){
                 $location.path("/login");

@@ -24,12 +24,10 @@ LeMailModule.controller('distributeListController',
     $scope.selectHandler = function(user){
         console.log(user);
         if (user) {
-            $scope.selectedHandler = user;
             $scope.users.remove(user);
             console.log($scope.users);
         } else {
             $scope.users.push($scope.selectedHandler);
-            $scope.selectedHandler = user;
         }
     };
 

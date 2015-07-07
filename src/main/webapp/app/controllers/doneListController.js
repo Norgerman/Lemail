@@ -30,7 +30,7 @@ LeMailModule.controller('doneListController',
     $scope.mail_list = [];
     $scope.onPageLoad = function () {
         $http({
-            url: '/api/handler/handled',
+            url: '/api/handler/all',
             method: 'GET',
             params: { page : 0 }
         }).success(function(response, status, headers, config){

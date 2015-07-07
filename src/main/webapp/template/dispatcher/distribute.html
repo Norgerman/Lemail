@@ -31,7 +31,7 @@
                     <label class="label label-primary">{{selectedHandler.name}}</label>
                     <select ng-model="selectedHandler"
                             ng-options="user as user.name for user in users"
-                            ng-change="selectUser(selectedHandler)"
+                            ng-change="selectHandler(selectedHandler)"
                             style="width: 100px" >
                         <option></option>
                     </select>
