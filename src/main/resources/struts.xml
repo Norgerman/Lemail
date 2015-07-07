@@ -17,6 +17,9 @@
         <action name="dispatch" class="lemail.api.Dispatcher" method="dispatch"/>
         <action name="handlers" class="lemail.api.Dispatcher" method="getHandlers"/>
     </package>
+    <package name="message" extends="struts-default" namespace="/message">
+        <action name="send" class="lemail.api.MessageOperation" method="send"/>
+    </package>
     <package name="manager" extends="struts-default" namespace="/api/manager">
         <action name="department" class="lemail.api.Manager" method="department"/>
         <action name="setconf" class="lemail.api.Manager" method="setConf"/>
