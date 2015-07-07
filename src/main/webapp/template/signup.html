@@ -18,7 +18,11 @@
 
     <div class="form-group">
         <label>所属部门</label>
-
+        <select ng-model="selectedDepartment"
+                ng-options="dep as dep.name for dep in department"
+                style="width: 100px" >
+            <option></option>
+        </select>
     </div>
 
     <div class="form-group">

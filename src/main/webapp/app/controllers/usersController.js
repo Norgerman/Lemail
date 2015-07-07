@@ -43,6 +43,7 @@ LeMailModule.controller('usersController',
         };
 
         $scope.department = [];
+        $scope.selectedDepartment = {};
 
         $scope.onPageLoad = function() {
             $scope.message = '';
