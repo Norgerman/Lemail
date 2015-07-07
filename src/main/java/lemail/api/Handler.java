@@ -123,7 +123,7 @@ public class Handler {
         }
     }
 
-    public String getOutboxList() {
+    public String getOutbox() {
         try {
             checkUser();
             if (page == null)

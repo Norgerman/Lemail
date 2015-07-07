@@ -29,7 +29,7 @@
         <action name="detail" class="lemail.api.Handler" method="getDetail"/>
         <action name="handlemail" class="lemail.api.Handler" method="handleMail"/>
         <action name="postmail" class="lemail.api.Handler" method="postMail"/>
-        <action name="outboxlist" class="lemail.api.Handler" method="getOutboxList"/>
+        <action name="outbox" class="lemail.api.Handler" method="getOutbox"/>
         <action name="outboxdetail" class="lemail.api.Handler" method="getOutboxDetail"/>
     </package>
     <package name="test" extends="struts-default">
