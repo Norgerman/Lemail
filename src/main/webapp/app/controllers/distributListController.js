@@ -111,6 +111,10 @@ LeMailModule.controller('distributListController',
       $location.path('/dispatcher/distribute/'+mail_id)
     };
 
+    $scope.onWriteNew = function () {
+        $location.path('/handler/new')
+    };
+
     $scope.inform = function($event){
         alert("大圣，快去实现distributeController的inform方法");
         $event.stopPropagation();
