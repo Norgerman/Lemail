@@ -137,7 +137,6 @@ public class User implements Serializable {
 
     public String toJson() {
         String str;
-        String checker;
         int[] roles = parseRole();
         str = String.format("{\"id\":%d, \"username\":\"%s\", \"name\":\"%s\"," +
                         "\"roles\":{\"manager\":%d, \"dispatcher\":%d, \"handler\":%d, \"reviewer\":%d}," +

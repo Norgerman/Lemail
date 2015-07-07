@@ -25,7 +25,7 @@
     </package>
     <package name="handler" extends="struts-default" namespace="/api/handler">
         <action name="nothandle" class="lemail.api.Handler" method="getNotHandle"/>
-        <action name="handled" class="lemail.api.Handler" method="getHandled"/>
+        <action name="all" class="lemail.api.Handler" method="getAll"/>
         <action name="detail" class="lemail.api.Handler" method="getDetail"/>
         <action name="handlemail" class="lemail.api.Handler" method="handleMail"/>
         <action name="postmail" class="lemail.api.Handler" method="postMail"/>
