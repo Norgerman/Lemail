@@ -27,7 +27,7 @@ LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider
         templateUrl: '/template/handler/done.html'
     }).when('/handler/send',{
         templateUrl: '/template/handler/send.html'
-    }).when('/handler/new',{
+    }).when('/handler/new/:mail_id',{
         templateUrl: '/template/handler/new.html'
     }).when('/manager',{
         templateUrl: '/template/manager.html'
@@ -35,6 +35,8 @@ LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider
         templateUrl: '/template/users.html'
     }).when('/dispatcher/distribute/:mail_id',{
         templateUrl: '/template/dispatcher/distribute.html'
+    }).when('/handler/handle/:mail_id',{
+        templateUrl: '/template/handler/handle.html'
     }).when('/handler/detail/:mail_id',{
         templateUrl: '/template/handler/detail.html'
     }).when('/handler/outboxdetail/:mail_id',{
@@ -76,7 +78,7 @@ LeMailModule.controller('LeMailController',
             title: '处理',
             item : [
                 { name : '未处理', url: '/#/handler/todo', icon: 'fa fa-bookmark' },
-                { name : '写新邮件', url: '/#/handler/new', icon: 'fa fa-pencil-square-o' },
+                { name : '写新邮件', url: '/#/handler/new/0', icon: 'fa fa-pencil-square-o' },
                 { name : '收件箱', url: '/#/handler/done', icon: 'fa fa-inbox' },
                 { name : '发件箱', url: '/#/handler/send', icon: 'fa fa-share-square' }
             ]
