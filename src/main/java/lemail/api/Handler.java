@@ -169,6 +169,7 @@ public class Handler {
                     o.setState(7);
                     AutoMail.getInstance().post(subject, content, to.split(","));
                 }
+                o.setReply(in);
                 s.beginTransaction();
                 s.save(o);
                 s.update(in);

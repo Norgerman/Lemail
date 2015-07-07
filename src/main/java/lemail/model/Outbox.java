@@ -36,6 +36,9 @@ public class Outbox implements Serializable {
     private String tag;
     @Column(name = "`sender_id`")
     private Integer sender_id;
+    @OneToOne(targetEntity = Inbox.class)
+    @JoinColumn(name = "reply_to")
+    private Inbox reply;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "checker")
     private User checker;
@@ -116,6 +119,14 @@ public class Outbox implements Serializable {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public Inbox getReply() {
+        return reply;
+    }
+
+    public void setReply(Inbox reply) {
+        this.reply = reply;
     }
 
     public User getChecker() {
