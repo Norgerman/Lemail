@@ -87,10 +87,12 @@ public class Dispatcher {
                 if (readers != null) {
                     String[] rs = readers.split("\\|");
                     for (String r : rs) {
-                        User u = (User) DBSession
-                                .find_first(User.class,
-                                        Restrictions.eq("id", Integer.parseInt(r)));
-                        inbox.getReaders().add(u);
+                        if (!r.isEmpty()) {
+                            User u = (User) DBSession
+                                    .find_first(User.class,
+                                            Restrictions.eq("id", Integer.parseInt(r)));
+                            inbox.getReaders().add(u);
+                        }
                     }
                 }
                 s.beginTransaction();
