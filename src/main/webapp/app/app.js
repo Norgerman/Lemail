@@ -2,7 +2,7 @@
  * Created by vvliebe on 6/29/15.
  */
 
-var LeMailModule = angular.module('LeMailModule', ['ngRoute','ngSanitize', 'ui.select', 'textAngular', 'ui.bootstrap']);
+var LeMailModule = angular.module('LeMailModule', ['ngRoute','ngSanitize', 'ui.select', 'textAngular', 'ui.bootstrap', 'ngDialog']);
 
 LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider, $httpProvider){
     if (!$httpProvider.defaults.headers.get) {
@@ -31,8 +31,14 @@ LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider
         templateUrl: '/template/handler/new.html'
     }).when('/manager',{
         templateUrl: '/template/manager.html'
+    }).when('/signup',{
+        templateUrl: '/template/users.html'
     }).when('/dispatcher/distribute/:mail_id',{
         templateUrl: '/template/dispatcher/distribute.html'
+    }).when('/handler/detail/:mail_id',{
+        templateUrl: '/template/handler/detail.html'
+    }).when('/handler/outboxdetail/:mail_id',{
+        templateUrl: '/template/handler/outboxdetail.html'
     }).otherwise({
         templateUrl: '/template/login.html'
     });
@@ -78,7 +84,8 @@ LeMailModule.controller('LeMailController',
         manager: {
             title: '管理',
             item : [
-                { name : '设置', url: '/#/manager', icon: 'fa fa-cog' }
+                { name : '设置', url: '/#/manager', icon: 'fa fa-cog' },
+                { name : '人员管理', url: '/#/signup', icon: 'fa fa-user' }
             ]
         },
         reviewer: {

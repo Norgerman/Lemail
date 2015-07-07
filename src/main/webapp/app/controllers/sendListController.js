@@ -2,7 +2,7 @@
  * Created by sxf on 15-7-5.
  */
 
-LeMailModule.controller('doneListController',
+LeMailModule.controller('sendListController',
     ['$scope','$http','$location',function($scope, $http, $location){
     $scope.sum_mail = 0;
     $scope.messages = [
@@ -30,7 +30,7 @@ LeMailModule.controller('doneListController',
     $scope.mail_list = [];
     $scope.onPageLoad = function () {
         $http({
-            url: '/api/handler/all',
+            url: '/api/handler/outbox',
             method: 'GET',
             params: { page : 0 }
         }).success(function(response, status, headers, config){
@@ -47,7 +47,6 @@ LeMailModule.controller('doneListController',
     };
 
     $scope.onselect = function (mail_id) {
-        $location.path('/handler/detail/'+mail_id)
-    }
-
+        $location.path('/handler/outboxdetail/'+mail_id)
+    };
 }]);

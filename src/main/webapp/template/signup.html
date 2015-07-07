@@ -1,0 +1,49 @@
+<form class="signup-form" ng-init="onPageLoad()">
+    <div class="form-group">
+        <label>用户名</label>
+        <input type="text" class="form-control" placeholder="Username" ng-model="user.username">
+    </div>
+    <div class="form-group">
+        <label>密码</label>
+        <input type="password" class="form-control" placeholder="Password of email" ng-model="user.password">
+    </div>
+    <div class="form-group">
+        <label>重复密码</label>
+        <input type="password" class="form-control" placeholder="Password again" ng-model="user.password">
+    </div>
+    <div class="form-group">
+        <label>用户昵称</label>
+        <input type="text" class="form-control" placeholder="Name" ng-model="user.name">
+    </div>
+
+    <div class="form-group">
+        <label>所属部门</label>
+        <select ng-model="selectedDepartment"
+                ng-options="dep as dep.name for dep in department"
+                style="width: 100px" >
+            <option></option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>权限： </label>
+        <label>
+            <input type="checkbox" ng-model="u.roles.dispatcher"> 分发
+        </label>
+        &nbsp;
+        <label>
+            <input type="checkbox" ng-model="u.roles.handler"> 处理
+        </label>
+        &nbsp;
+        <label>
+            <input type="checkbox" ng-model="u.roles.reviewer"> 审核
+        </label>
+        &nbsp;
+        <label>
+            <input type="checkbox" ng-model="u.roles.manager"> 管理
+        </label>
+    </div>
+
+    <button type="submit" class="btn btn-success" ng-click="onSave()">添加</button>
+    <label>{{message}}</label>
+</form>
