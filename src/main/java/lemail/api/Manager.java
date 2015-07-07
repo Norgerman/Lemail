@@ -5,6 +5,7 @@ import lemail.utils.Action;
 import lemail.utils.AutoMail;
 
 import lemail.model.Department;
+import lemail.utils.Condition;
 import lemail.utils.DBSession;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -156,6 +157,18 @@ public class Manager {
                 changed = true;
                 u.setName(name);
             }
+            if (role != null) {
+                changed = true;
+                u.setRole(role);
+            }
+            if (department_id != null) {
+                changed = true;
+                u.setDepartmentId(department_id);
+            }
+            if (default_checker != null) {
+                changed = true;
+                u.setChecker((User) DBSession.find_first(User.class, Restrictions.eq("id", default_checker)));
+            }
             if (changed) {
                 Session s = DBSession.getSession();
                 try {
@@ -198,6 +211,65 @@ public class Manager {
             s.close();
         }
         return null;
+    }
+
+    public Integer page;
+
+    public String getUser() {
+        try {
+            checkRole();
+            if (page == null)
+                page = 0;
+            Action.echojson(0, "success", getUserList("from User", page * 10, 10, null, false));
+        } catch (ApiException e) {
+            e.printStackTrace();
+            return Action.error(e.getId(), e.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Action.error(-1, "未知错误");
+        }
+        return null;
+    }
+
+    public String getChecker() {
+        try {
+            checkRole();
+            if (page == null)
+                page = 0;
+            Action.echojson(0, "success", getUserList("from User", page * 10, 10, null, true, new Condition("role", "role like :role", "%R%")));
+        } catch (ApiException e) {
+            e.printStackTrace();
+            return Action.error(e.getId(), e.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Action.error(-1, "未知错误");
+        }
+        return null;
+    }
+
+    private String getUserList(String sql, int offset, int max, String order, boolean simple, Condition... conditions) {
+        List<User> users = DBSession.executeSql(sql, offset, max, order, conditions);
+        int count = DBSession.count("User", conditions);
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"list\":[");
+        for (User item : users) {
+            if (!simple)
+                sb.append(item.toJson());
+            else
+                sb.append(item.toSimpleJson());
+            sb.append(',');
+        }
+        if (sb.length() > 9) {
+            sb.setCharAt(sb.length() - 1, ']');
+            sb.append(",");
+        } else {
+            sb.append("],");
+        }
+        sb.append("\"page\":");
+        sb.append(page + 1);
+        sb.append(String.format(",\"sum\":%d", count % 10 == 0 ? count / 10 : count / 10 + 1));
+        sb.append("}");
+        return sb.toString();
     }
 
     private void checkRole() throws ApiException {

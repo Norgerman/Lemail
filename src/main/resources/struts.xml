@@ -24,6 +24,8 @@
         <action name="signup" class="lemail.api.Manager" method="signUp"/>
         <action name="change" class="lemail.api.Manager" method="change"/>
         <action name="adddepartment" class="lemail.api.Manager" method="addDepartment"/>
+        <action name="user" class="lemail.api.Manager" method="getUser"/>
+        <action name="checker" class="lemail.api.Manager" method="getChecker"/>
     </package>
     <package name="handler" extends="struts-default" namespace="/api/handler">
         <action name="nothandle" class="lemail.api.Handler" method="getNotHandle"/>
