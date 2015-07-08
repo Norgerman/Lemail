@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="/css/home.css"/>
+<div class="container-fluid" >
+    <div ng-include="'/template/common/navbar.html'"></div>
+    <div ng-include="'/template/common/sidebar.html'"></div>
+    <div class="content-div" ng-controller="reviewToDoController" ng-init="onPageLoad()">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">审核列表</div>
+
+
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <td>状态</td>
+                    <td>处理人</td>
+                    <td>标题</td>
+                    <td>处理时间</td>
+                </tr>
+                <!--<tr ng-repeat=""></tr>-->
+            </table>
+        </div>
+    </div>
+</div>

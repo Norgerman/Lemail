@@ -12,6 +12,7 @@ LeMailModule.controller('usersController',
             "roles": { "manager": false, "dispatcher": false, "handler": false, "reviewer": true },
             "checker": null
         }];
+        $scope.edit_line = -1;
 
         $scope.message = '';
         $scope.user = {};
@@ -48,6 +49,24 @@ LeMailModule.controller('usersController',
                 template: '/template/signup.html',
                 className: 'ngdialog-theme-default',
                 scope: $scope
+            });
+        };
+
+        $scope.saveUsers = function () {
+            $http({
+                url: '/api/manager/change',
+                method: 'POST',
+                params: $scope.user
+            }).success(function(response, status, headers, config){
+                console.log(response);
+                if (response.status == 0){
+                    $scope.message = "保存成功";
+                    ngDialog.closeAll();
+                }else{
+                    $scope.message = response.message;
+                }
+            }).error(function(response, status, headers, config){
+                console.log(response);
             });
         };
 

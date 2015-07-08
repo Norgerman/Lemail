@@ -12,6 +12,7 @@
                         <td>#</td>
                         <td>用户名</td>
                         <td>用户昵称</td>
+                        <td>密码</td>
                         <td>用户权限</td>
                     </tr>
                 </thead>
@@ -19,7 +20,14 @@
                     <tr ng-repeat="u in users">
                         <td>{{u.id}}</td>
                         <td>{{u.username}}</td>
-                        <td>{{u.name}}</td>
+                        <td ng-if="edit_line!=u.$index">{{u.name}}</td>
+                        <td ng-if="edit_line!=u.$index">***</td>
+                        <td ng-if="edit_line==u.$index">
+                            <input type="text" ng-model="u.name"/>
+                        </td>
+                        <td ng-if="edit_line==u.$index">
+                            <input type="text" ng-model="u.password"/>
+                        </td>
                         <td>
                             <label>
                                 <input type="checkbox" ng-model="u.roles.dispatcher"> 分发
@@ -37,10 +45,14 @@
                                 <input type="checkbox" ng-model="u.roles.manager"> 管理
                             </label>
                         </td>
+                        <td ng-if="edit_line!=u.$index"></td>
+                        <td ng-if="edit_line==u.$index">
+                            <button class="btn btn-success" ng-click="saveUsers(u)">保存</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
-            <button class="btn btn-success" ng-click="clickToOpen()">添加用户</button>
+            <button class="btn btn-primary" ng-click="clickToOpen()">添加用户</button>
         </div>
     </div>
 </div>
