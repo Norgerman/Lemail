@@ -160,8 +160,9 @@ public class Outbox implements Serializable {
         }
         str = String.format("{\"id\":%d, \"subject\":\"%s\", \"content\":\"%s\"," +
                         "\"state\":%d, \"date\":\"%s\", \"attachment\":%s, \"to\":\"%s\"," +
-                        "\"tag\":%s,\"checker\":%s}",
-                id, subject, content.replaceAll("\\r?\\n", "\\\\n").replaceAll("\"", "\\\\\""), state, format.format(date), tmp_attach, to, tmp_tag, formatChecker());
+                        "\"tag\":%s,\"checker\":%s,\"reply\":%s}",
+                id, subject, content.replaceAll("\\r?\\n", "\\\\n").replaceAll("\"", "\\\\\""), state,
+                format.format(date), tmp_attach, to, tmp_tag, formatChecker(), formatReply());
         return str;
     }
 
@@ -176,8 +177,18 @@ public class Outbox implements Serializable {
         }
         str = String.format("{\"id\":%d, \"subject\":\"%s\", " +
                         "\"state\":%d, \"date\":\"%s\", \"to\":\"%s\"," +
-                        "\"tag\":%s,\"checker\":%s}",
-                id, subject, state, format.format(date), to, tmp_tag, formatChecker());
+                        "\"tag\":%s,\"checker\":%s,\"reply\":%s}",
+                id, subject, state, format.format(date), to, tmp_tag, formatChecker(), formatReply());
+        return str;
+    }
+
+    private String formatReply() {
+        String str;
+        if (reply == null) {
+            str = "null";
+        } else {
+            str = String.format("{\"id\":%d,\"subject\":\"%s\"}", reply.getId(), reply.getSubject());
+        }
         return str;
     }
 

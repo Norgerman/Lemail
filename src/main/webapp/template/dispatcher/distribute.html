@@ -29,11 +29,10 @@
                         <!--<option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</option>-->
                     <!--</select>-->
                     <label class="label label-primary">{{selectedHandler.name}}</label>
-                    <select ng-model="selectedHandler"
+                    <select ng-model="sHandler"
                             ng-options="user as user.name for user in users"
-                            ng-change="selectHandler(selectedHandler)"
+                            ng-change="selectHandler(sHandler)"
                             style="width: 100px" >
-                        <option></option>
                     </select>
                 </div>
                 <div class="receiver-address-div col-sm-6">设定时限</div>
@@ -50,7 +49,6 @@
                                ng-options="user as user.name for user in users"
                                 ng-change="selectUser(selectedUser)"
                                style="width: 100px" >
-                        <option></option>
                     </select>
                     <span ng-if="showClick" ng-click="addClick()" class="glyphicon glyphicon-plus-sign"></span>
                 </div>

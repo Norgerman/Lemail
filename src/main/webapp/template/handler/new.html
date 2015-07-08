@@ -3,7 +3,7 @@
 <div class="container-fluid" >
     <div ng-include="'/template/common/navbar.html'"></div>
     <div ng-include="'/template/common/sidebar.html'"></div>
-    <div class="content-div" ng-controller="newEmailController">
+    <div class="content-div" ng-controller="newEmailController" ng-init="Init()">
         <div class="new-main">
             <form name="newEmailForm">
                 <div class="form-group">

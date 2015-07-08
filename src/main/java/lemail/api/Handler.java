@@ -153,21 +153,23 @@ public class Handler {
             Inbox in = (Inbox) DBSession.find_first(Inbox.class, Restrictions.eq("id", id));
             if (in == null)
                 return Action.error(404, "对应邮件不存在");
-            if (!needreply && !in.isReview()) {
+            if (needreply!=null && !needreply && (in.isReview()==null || !in.isReview())) {
                 s.beginTransaction();
                 in.setState(7);
                 s.update(in);
                 s.getTransaction().commit();
             } else {
                 Outbox o = new Outbox(subject, content, new Date(), to, uid);
-                if (in.isReview()) {
+                if (in.isReview() != null && in.isReview()) {
                     User u = getUser();
                     o.setChecker(u.getChecker());
                     in.setState(4);
                     o.setState(4);
+                    o.setReply(in);
                 } else {
                     in.setState(7);
                     o.setState(7);
+                    o.setReply(in);
                     AutoMail.getInstance().post(subject, content, to.split(","));
                 }
                 o.setReply(in);
@@ -175,8 +177,8 @@ public class Handler {
                 s.save(o);
                 s.update(in);
                 s.getTransaction().commit();
-                Action.echojson(0, "success");
             }
+            Action.echojson(0, "success");
             return null;
         } catch (ApiException e) {
             e.printStackTrace();

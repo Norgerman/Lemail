@@ -45,4 +45,7 @@ LeMailModule.controller('todoListController', ['$scope','$http','$location',func
         });
     };
 
+    $scope.onSelect = function (mail_id) {
+        $location.path('/handler/handle/'+mail_id);
+    }
 }]);
