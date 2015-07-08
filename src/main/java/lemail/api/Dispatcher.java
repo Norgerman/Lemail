@@ -91,7 +91,7 @@ public class Dispatcher {
                             User u = (User) DBSession
                                     .find_first(User.class,
                                             Restrictions.eq("id", Integer.parseInt(r)));
-                            inbox.getReaders().add(u);
+                            inbox.getReaders().add(u);Action.error(403, "审核者不存在");
                         }
                     }
                 }

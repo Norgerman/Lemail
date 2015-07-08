@@ -17,8 +17,9 @@
         <action name="dispatch" class="lemail.api.Dispatcher" method="dispatch"/>
         <action name="handlers" class="lemail.api.Dispatcher" method="getHandlers"/>
     </package>
-    <package name="message" extends="struts-default" namespace="/message">
+    <package name="message" extends="struts-default" namespace="/api/message">
         <action name="send" class="lemail.api.MessageOperation" method="send"/>
+        <action name="getmsgs" class="lemail.api.MessageOperation" method="getmsgs"/>
     </package>
     <package name="manager" extends="struts-default" namespace="/api/manager">
         <action name="department" class="lemail.api.Manager" method="department"/>
@@ -39,6 +40,7 @@
         <action name="outbox" class="lemail.api.Handler" method="getOutbox"/>
         <action name="outboxdetail" class="lemail.api.Handler" method="getOutboxDetail"/>
         <action name="revisemail" class="lemail.api.Handler" method="reviseMail"/>
+        <action name="checker" class="lemail.api.Handler" method="getChecker"/>
     </package>
     <package name="reviewer" extends="struts-default" namespace="/api/reviewer">
         <action name="notcheck" class="lemail.api.Reviewer" method="getNotCheck"/>

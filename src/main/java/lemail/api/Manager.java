@@ -234,9 +234,8 @@ public class Manager {
     public String getChecker() {
         try {
             checkRole();
-            if (page == null)
-                page = 0;
-            Action.echojson(0, "success", getUserList("from User", page * 10, 10, null, true, new Condition("role", "role like :role", "%R%")));
+            page = 0;
+            Action.echojson(0, "success", getUserList("from User", page * 10, Integer.MAX_VALUE, null, true, new Condition("role", "role like :role", "%R%")));
         } catch (ApiException e) {
             e.printStackTrace();
             return Action.error(e.getId(), e.getMessage());
