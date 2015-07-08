@@ -35,7 +35,12 @@
                             style="width: 100px" >
                     </select>
                 </div>
-                <div class="receiver-address-div col-sm-6">设定时限</div>
+                <div class="receiver-address-div col-sm-6">
+                    <label>
+                        <input type="checkbox" ng-model="needreview">
+                        需要审核
+                    </label>
+                </div>
                 <div class="receiver-address-div col-sm-2">
                     <button class="btn btn-primary" ng-click="onDistribute()">分发</button>
                 </div>

@@ -96,7 +96,7 @@ LeMailModule.controller('LeMailController',
             title: '审核',
             item : [
                 { name : '已审核列表', url: '/#/reviewer/donelist', icon: 'fa fa-check-circle' },
-                { name : '未审核列表', url: '/#/reviewer/todolist', icon: 'fa fa-check-circle' }
+                { name : '未审核列表', url: '/#/reviewer/todolist', icon: 'fa fa-tasks' }
             ]
         }
     };

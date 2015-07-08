@@ -41,7 +41,7 @@ public class Handler {
             int uid = (Integer) Action.getSession("uid");
             Inbox mail = (Inbox) DBSession.find_first(
                     Inbox.class, Restrictions.eq("id", id));
-            if ( mail.getHandler()!=null && mail.getHandler().getId() == uid &&
+            if (mail.getHandler() != null && mail.getHandler().getId() == uid &&
                     (mail.getState() == 2 || mail.getState() == 6)) {
                 mail.setState(3);
                 Session s = DBSession.getSession();
@@ -129,7 +129,7 @@ public class Handler {
             if (page == null)
                 page = 0;
             int uid = (Integer) Action.getSession("uid");
-            Action.echojson(0, "success", getOutboxList("from Outbox", page * 10, 10, "order by date desc", new Condition("sender", "sender_id = :sender", uid)));
+            Action.echojson(0, "success", getOutboxList("from Outbox", page * 10, 10, "order by date desc", new Condition("sender", "sender.id = :sender", uid)));
             return null;
         } catch (ApiException e) {
             e.printStackTrace();
@@ -149,17 +149,16 @@ public class Handler {
         Session s = DBSession.getSession();
         try {
             checkUser();
-            int uid = (Integer) Action.getSession("uid");
             Inbox in = (Inbox) DBSession.find_first(Inbox.class, Restrictions.eq("id", id));
             if (in == null)
                 return Action.error(404, "对应邮件不存在");
-            if (needreply!=null && !needreply && (in.isReview()==null || !in.isReview())) {
+            if (needreply != null && !needreply && (in.isReview() == null || !in.isReview())) {
                 s.beginTransaction();
                 in.setState(7);
                 s.update(in);
                 s.getTransaction().commit();
             } else {
-                Outbox o = new Outbox(subject, content, new Date(), to, uid);
+                Outbox o = new Outbox(subject, content, new Date(), to, getUser());
                 if (in.isReview() != null && in.isReview()) {
                     User u = getUser();
                     o.setChecker(u.getChecker());
@@ -195,8 +194,7 @@ public class Handler {
         Session s = DBSession.getSession();
         try {
             checkUser();
-            int uid = (Integer) Action.getSession("uid");
-            Outbox o = new Outbox(subject, content, new Date(), to, uid);
+            Outbox o = new Outbox(subject, content, new Date(), to, getUser());
             o.setState(7);
             AutoMail.getInstance().post(subject, content, to.split(","));
             s.beginTransaction();
@@ -204,6 +202,35 @@ public class Handler {
             s.getTransaction().commit();
             Action.echojson(0, "success");
             return null;
+        } catch (ApiException e) {
+            e.printStackTrace();
+            return Action.error(e.getId(), e.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Action.error(-1, "未知异常");
+        } finally {
+            s.close();
+        }
+    }
+
+    public String reviseMail() {
+        Session s = DBSession.getSession();
+        try {
+            checkUser();
+            Outbox o = (Outbox) DBSession.find_first(Outbox.class, Restrictions.eq("id", id));
+            if (o == null)
+                return Action.error(404, "对应邮件不存在");
+            if (o.getState() != 3)
+                return Action.error(403, "此邮件不需要修改");
+            o.setState(4);
+            o.getReply().setState(4);
+            o.setSubject(subject);
+            o.setContent(content);
+            s.beginTransaction();
+            s.update(o);
+            s.update(o.getReply());
+            s.getTransaction().commit();
+            return Action.success();
         } catch (ApiException e) {
             e.printStackTrace();
             return Action.error(e.getId(), e.getMessage());
