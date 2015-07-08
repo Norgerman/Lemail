@@ -19,8 +19,10 @@ LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider
         templateUrl: '/template/home.html'
     }).when('/dispatcher',{
         templateUrl: '/template/dispatcher.html'
-    }).when('/reviewer',{
-        templateUrl: '/template/reviewer.html'
+    }).when('/reviewer/todolist',{
+        templateUrl: '/template/reviewer/toreview.html'
+    }).when('/reviewer/donelist',{
+        templateUrl: '/template/reviewer/reviewed.html'
     }).when('/handler/todo',{
         templateUrl: '/template/handler/todo.html'
     }).when('/handler/done',{
@@ -93,7 +95,8 @@ LeMailModule.controller('LeMailController',
         reviewer: {
             title: '审核',
             item : [
-                { name : '审核列表', url: '/#/reviewer', icon: 'fa fa-check-circle' }
+                { name : '已审核列表', url: '/#/reviewer/donelist', icon: 'fa fa-check-circle' },
+                { name : '未审核列表', url: '/#/reviewer/todolist', icon: 'fa fa-check-circle' }
             ]
         }
     };
