@@ -1,10 +1,18 @@
 /**
  * Created by vvliebe on 15-7-8.
  */
-LeMailModule.controller('reviewToDoController', ['$scope','$http','$location',function($scope, $http, $location){
+LeMailModule.controller('reviewToDoController', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams){
     $scope.onPageLoad = function() {
+        var url ;
+        if($routeParams.type == "unchecked"){
+            $scope.isReviewed = false;
+            url = "/api/reviewer/notcheck";
+        }else{
+            $scope.isReviewed = true;
+            url = "/api/reviewer/checked";
+        }
         $http({
-            url: '/api/reviewer/notcheck',
+            url: url,
             method: 'GET',
             params: { page : 0 }
         }).success(function(response, status, headers, config){
@@ -19,6 +27,8 @@ LeMailModule.controller('reviewToDoController', ['$scope','$http','$location',fu
             console.log(response);
         });
     };
+
+    $scope.isReviewed = true;
 
     $scope.review_list = [
         {
