@@ -4,7 +4,7 @@
 
 var LeMailModule = angular.module('LeMailModule', ['ngRoute','ngSanitize', 'ui.select', 'textAngular', 'ui.bootstrap', 'ngDialog']);
 
-LeMailModule.config(['$routeProvider', "$httpProvider",  function($routeProvider, $httpProvider){
+LeMailModule.config(['$routeProvider', "$httpProvider", function($routeProvider, $httpProvider){
     if (!$httpProvider.defaults.headers.get) {
         $httpProvider.defaults.headers.get = {};
     }
@@ -100,9 +100,11 @@ LeMailModule.controller('LeMailController',
     };
 
 
-    $scope.$on('login', function(event,data){
+    $scope.$on('login', function(event, data, role){
         $scope.user = data;
         $scope.title = "欢迎使用Lemail";
+        //console.log("..."+$scope.sidebarItems[role]["item"][0]["url"].substr(2));
+        $location.path($scope.sidebarItems[role]["item"][0]["url"].substr(2));
     });
 
     $scope.signout = function(){
@@ -142,7 +144,7 @@ LeMailModule.controller('LeMailController',
                 $scope.default_role_url = $scope.sidebarItems[firstRole].item[0].url;
                 $scope.$broadcast('changeMainContent', $scope.default_role_url);
             }else if(response.status == 401){
-                $location.path("/login");
+                $location.url("/login");
                 $scope.title = "登陆";
             }
         }).error(function(response, status, headers, config){
