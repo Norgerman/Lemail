@@ -34,8 +34,9 @@ public class Outbox implements Serializable {
     private String to;
     @Column(name = "`tag`")
     private String tag;
-    @Column(name = "`sender_id`")
-    private Integer sender_id;
+    @ManyToOne(targetEntity = User.class)
+    @JoinColumn(name = "`sender_id`")
+    private User sender;
     @OneToOne(targetEntity = Inbox.class)
     @JoinColumn(name = "reply_to")
     private Inbox reply;
@@ -43,13 +44,13 @@ public class Outbox implements Serializable {
     @JoinColumn(name = "checker")
     private User checker;
 
-    public Outbox(String subject, String content, Date date, String to, int sender_id) {
+    public Outbox(String subject, String content, Date date, String to, User sender) {
         this.subject = subject;
         this.content = content;
         this.date = date;
         this.state = 0;
         this.to = to;
-        this.sender_id = sender_id;
+        this.sender = sender;
     }
 
     public Outbox() {
@@ -137,12 +138,12 @@ public class Outbox implements Serializable {
         this.checker = checker;
     }
 
-    public Integer getSender_id() {
-        return sender_id;
+    public User getSender() {
+        return sender;
     }
 
-    public void setSender_id(Integer sender_id) {
-        this.sender_id = sender_id;
+    public void setSender(User sender) {
+        this.sender = sender;
     }
 
     public String toJson() {
@@ -160,9 +161,10 @@ public class Outbox implements Serializable {
         }
         str = String.format("{\"id\":%d, \"subject\":\"%s\", \"content\":\"%s\"," +
                         "\"state\":%d, \"date\":\"%s\", \"attachment\":%s, \"to\":\"%s\"," +
-                        "\"tag\":%s,\"checker\":%s,\"reply\":%s}",
+                        "\"tag\":%s,\"checker\":%s,\"sender\":%s,\"reply\":%s}",
                 id, subject, content.replaceAll("\\r?\\n", "\\\\n").replaceAll("\"", "\\\\\""), state,
-                format.format(date), tmp_attach, to, tmp_tag, formatChecker(), formatReply());
+                format.format(date), tmp_attach, to, tmp_tag, formatChecker(),
+                sender.toSimpleJson(), formatReply());
         return str;
     }
 
@@ -177,8 +179,9 @@ public class Outbox implements Serializable {
         }
         str = String.format("{\"id\":%d, \"subject\":\"%s\", " +
                         "\"state\":%d, \"date\":\"%s\", \"to\":\"%s\"," +
-                        "\"tag\":%s,\"checker\":%s,\"reply\":%s}",
-                id, subject, state, format.format(date), to, tmp_tag, formatChecker(), formatReply());
+                        "\"tag\":%s,\"checker\":%s,\"sender\":%s,\"reply\":%s}",
+                id, subject, state, format.format(date), to, tmp_tag, formatChecker(),
+                sender.toSimpleJson(), formatReply());
         return str;
     }
 

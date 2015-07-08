@@ -38,6 +38,13 @@
         <action name="postmail" class="lemail.api.Handler" method="postMail"/>
         <action name="outbox" class="lemail.api.Handler" method="getOutbox"/>
         <action name="outboxdetail" class="lemail.api.Handler" method="getOutboxDetail"/>
+        <action name="revisemail" class="lemail.api.Handler" method="reviseMail"/>
+    </package>
+    <package name="reviewer" extends="struts-default" namespace="/api/reviewer">
+        <action name="notcheck" class="lemail.api.Reviewer" method="getNotCheck"/>
+        <action name="checked" class="lemail.api.Reviewer" method="getChecked"/>
+        <action name="checkmail" class="lemail.api.Reviewer" method="checkMail"/>
+        <action name="detail" class="lemail.api.Reviewer" method="getDetail"/>
     </package>
     <package name="test" extends="struts-default">
         <action name="test" class="lemail.api.Test" method="test"/>
