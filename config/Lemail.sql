@@ -108,11 +108,14 @@ CREATE TABLE `outbox` (
   `tag` varchar(200) DEFAULT NULL,
   `checker` int(11) DEFAULT NULL,
   `sender_id` int(11) NOT NULL,
+  `reply_to` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_outbox_1_idx` (`checker`),
   KEY `fk_outbox_sender_idx` (`sender_id`),
+  KEY `fk_outbox_inbox_idx` (`reply_to`),
+  CONSTRAINT `fk_outbox_inbox` FOREIGN KEY (`reply_to`) REFERENCES `inbox` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_outbox_sender` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_outbox_user` FOREIGN KEY (`checker`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_outbox_user` FOREIGN KEY (`checker`) REFERENCES `user` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
