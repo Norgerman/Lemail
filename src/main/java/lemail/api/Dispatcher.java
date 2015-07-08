@@ -66,7 +66,7 @@ public class Dispatcher {
 
     public Integer handler;
     public String readers;
-    private Boolean review;
+    public Boolean review;
 
     public String dispatch() {
         Session s = DBSession.getSession();
