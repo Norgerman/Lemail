@@ -3,7 +3,21 @@
  */
 LeMailModule.controller('reviewToDoController', ['$scope','$http','$location',function($scope, $http, $location){
     $scope.onPageLoad = function() {
-
+        $http({
+            url: '/api/reviewer/notcheck',
+            method: 'GET',
+            params: { page : 0 }
+        }).success(function(response, status, headers, config){
+            console.log(response);
+            if (response.status == 0){
+                $scope.review_list = response.data.list;
+                $scope.sum_review = $scope.review_list.length;
+            }else{
+                alert(response.message);
+            }
+        }).error(function(response, status, headers, config){
+            console.log(response);
+        });
     };
 
     $scope.review_list = [
