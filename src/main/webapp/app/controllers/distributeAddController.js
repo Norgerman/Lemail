@@ -6,6 +6,7 @@ LeMailModule.controller('distributeListController',
     function($scope, $http, $sce, $routeParams, $location){
     $scope.mail_id = 0;
     $scope.mail = {};
+    $scope.needreview = true;
 
     $scope.selectedHandler = null;
     $scope.selectedUsers = [];
@@ -61,7 +62,7 @@ LeMailModule.controller('distributeListController',
             params: {
                 id: $scope.mail_id,
                 handler : handler,
-                review  : false,
+                review  : $scope.needreview,
                 readers : readers
             }
         }).success(function(response){
