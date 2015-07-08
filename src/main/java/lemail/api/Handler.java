@@ -220,6 +220,8 @@ public class Handler {
             Outbox o = (Outbox) DBSession.find_first(Outbox.class, Restrictions.eq("id", id));
             if (o == null)
                 return Action.error(404, "对应邮件不存在");
+            if (o.getState() != 3)
+                return Action.error(403, "此邮件不需要修改");
             o.setState(4);
             o.getReply().setState(4);
             o.setSubject(subject);
