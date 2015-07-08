@@ -165,9 +165,11 @@ public class Handler {
                     o.setChecker(u.getChecker());
                     in.setState(4);
                     o.setState(4);
+                    o.setReply(in);
                 } else {
                     in.setState(7);
                     o.setState(7);
+                    o.setReply(in);
                     AutoMail.getInstance().post(subject, content, to.split(","));
                 }
                 o.setReply(in);
