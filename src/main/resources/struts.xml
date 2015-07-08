@@ -19,6 +19,7 @@
     </package>
     <package name="message" extends="struts-default" namespace="/api/message">
         <action name="send" class="lemail.api.MessageOperation" method="send"/>
+        <action name="getmsgs" class="lemail.api.MessageOperation" method="getmsgs"/>
     </package>
     <package name="manager" extends="struts-default" namespace="/api/manager">
         <action name="department" class="lemail.api.Manager" method="department"/>
