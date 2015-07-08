@@ -5,3 +5,11 @@
 .signup-form {
     margin: 30px 60px;
 }
+
+.users-red {
+    color: #ac2925;
+}
+
+.users-green {
+    color: #47a447;
+}

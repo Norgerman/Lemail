@@ -17,37 +17,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="u in users">
+                    <tr ng-repeat="u in users" ng-mousedown="onSaveOld(u)" ng-click="onSelectLine($index)">
                         <td>{{u.id}}</td>
                         <td>{{u.username}}</td>
-                        <td ng-if="edit_line!=u.$index">{{u.name}}</td>
-                        <td ng-if="edit_line!=u.$index">***</td>
-                        <td ng-if="edit_line==u.$index">
+                        <td ng-if="edit_line!=$index">{{u.name}}</td>
+                        <td ng-if="edit_line!=$index">***</td>
+                        <td ng-if="edit_line==$index">
                             <input type="text" ng-model="u.name"/>
                         </td>
-                        <td ng-if="edit_line==u.$index">
-                            <input type="text" ng-model="u.password"/>
+                        <td ng-if="edit_line==$index">
+                            <input type="password" ng-model="u.password"/>
                         </td>
                         <td>
-                            <label>
-                                <input type="checkbox" ng-model="u.roles.dispatcher"> 分发
-                            </label>
-                            &nbsp;
-                            <label>
-                                <input type="checkbox" ng-model="u.roles.handler"> 处理
-                            </label>
-                            &nbsp;
-                            <label>
-                                <input type="checkbox" ng-model="u.roles.reviewer"> 审核
-                            </label>
-                            &nbsp;
-                            <label>
-                                <input type="checkbox" ng-model="u.roles.manager"> 管理
-                            </label>
+                            <label><input type="checkbox" ng-model="u.roles.dispatcher"> 分发</label>&nbsp;
+                            <label><input type="checkbox" ng-model="u.roles.handler"> 处理</label>&nbsp;
+                            <label><input type="checkbox" ng-model="u.roles.reviewer"> 审核</label>&nbsp;
+                            <label><input type="checkbox" ng-model="u.roles.manager"> 管理</label>
                         </td>
-                        <td ng-if="edit_line!=u.$index"></td>
-                        <td ng-if="edit_line==u.$index">
-                            <button class="btn btn-success" ng-click="saveUsers(u)">保存</button>
+                        <td ng-if="edit_line!=$index">
+                            {{u.checker.name}}
+                        </td>
+                        <td ng-if="edit_line==$index">
+                            <select ng-model="show_checker"
+                                    ng-options="dep as dep.name for dep in checkers"
+                                    ng-change="select_checker(u, show_checker)"
+                                    style="width: 100px" >
+                                <option></option>
+                            </select>
+                        </td>
+                        <td ng-if="edit_line!=$index"></td>
+                        <td ng-if="edit_line==$index">
+                            <span ng-click="saveUser($event,u)"><i class="fa fa-check users-green"></i></span>
+                            <span ng-click="onCancel($event)"><i class="fa fa-remove users-red"></i></span>
                         </td>
                     </tr>
                 </tbody>
