@@ -39,6 +39,7 @@
         <action name="outbox" class="lemail.api.Handler" method="getOutbox"/>
         <action name="outboxdetail" class="lemail.api.Handler" method="getOutboxDetail"/>
         <action name="revisemail" class="lemail.api.Handler" method="reviseMail"/>
+        <action name="checker" class="lemail.api.Handler" method="getChecker"/>
     </package>
     <package name="reviewer" extends="struts-default" namespace="/api/reviewer">
         <action name="notcheck" class="lemail.api.Reviewer" method="getNotCheck"/>

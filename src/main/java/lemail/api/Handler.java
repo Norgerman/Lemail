@@ -144,6 +144,7 @@ public class Handler {
     public String subject;
     public String content;
     public String to;
+    public Integer checker_id;
 
     public String handleMail() {
         Session s = DBSession.getSession();
@@ -161,7 +162,11 @@ public class Handler {
                 Outbox o = new Outbox(subject, content, new Date(), to, getUser());
                 if (in.isReview() != null && in.isReview()) {
                     User u = getUser();
-                    o.setChecker(u.getChecker());
+                    if (checker_id == null)
+                        o.setChecker(u.getChecker());
+                    else
+                        o.setChecker((User) DBSession.find_first(
+                                User.class, Restrictions.eq("id", checker_id)));
                     in.setState(4);
                     o.setState(4);
                     o.setReply(in);
@@ -240,6 +245,46 @@ public class Handler {
         } finally {
             s.close();
         }
+    }
+
+    public String getChecker() {
+        try {
+            checkUser();
+            page = 0;
+            Action.echojson(0, "success", getUserList("from User", page * 10, Integer.MAX_VALUE, null, true, new Condition("role", "role like :role", "%R%")));
+        } catch (ApiException e) {
+            e.printStackTrace();
+            return Action.error(e.getId(), e.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Action.error(-1, "未知错误");
+        }
+        return null;
+    }
+
+    private String getUserList(String sql, int offset, int max, String order, boolean simple, Condition... conditions) {
+        List<User> users = DBSession.executeSql(sql, offset, max, order, conditions);
+        int count = DBSession.count("User", conditions);
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"list\":[");
+        for (User item : users) {
+            if (!simple)
+                sb.append(item.toJson());
+            else
+                sb.append(item.toSimpleJson());
+            sb.append(',');
+        }
+        if (sb.length() > 9) {
+            sb.setCharAt(sb.length() - 1, ']');
+            sb.append(",");
+        } else {
+            sb.append("],");
+        }
+        sb.append("\"page\":");
+        sb.append(page + 1);
+        sb.append(String.format(",\"sum\":%d", count % 10 == 0 ? count / 10 : count / 10 + 1));
+        sb.append("}");
+        return sb.toString();
     }
 
     /**
