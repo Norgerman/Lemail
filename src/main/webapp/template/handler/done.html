@@ -19,6 +19,14 @@
                 <h4>邮件</h4>
                 <table class="table table-hover list-table">
                     <tr ng-repeat="mail in mail_list" ng-click="onselect(mail.id)">
+                        <td><i ng-class="{
+                            'fa fa-eye-slash text-warning':mail.state==2,
+                            'fa fa-leanpub text-primary':mail.state==3,
+                            'fa fa-check-circle text-info':mail.state==4,
+                            'fa fa-exclamation-circle text-info':mail.state==5,
+                            'fa fa-reply text-warning':mail.state==6,
+                            'fa fa-check text-success':mail.state==7
+                        }"></i></td>
                         <td>{{ mail.from }}</td>
                         <td>{{ mail.subject }}</td>
                         <td>{{ mail.date }}</td>

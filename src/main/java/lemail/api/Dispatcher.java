@@ -75,7 +75,7 @@ public class Dispatcher {
             Inbox inbox = (Inbox) DBSession.find_first(Inbox.class, Restrictions.eq("id", id));
             if (inbox != null) {
                 if (handler != null) {
-                    if (inbox.getState() == 1) {
+                    if (inbox.getState() == 1 || inbox.getState() == 0) {
                         User handle = (User) DBSession.find_first(User.class, Restrictions.eq("id", handler));
                         inbox.setHandler(handle);
                         inbox.setReview(review);

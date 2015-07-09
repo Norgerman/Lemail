@@ -3,7 +3,7 @@
  */
 
 LeMailModule.controller('distributListController',
-    ['$scope', '$http', '$location', function ($scope, $http, $location) {
+    ['$scope', '$http', '$location','ngDialog', function ($scope, $http, $location, ngDialog) {
         $scope.sum_mail = 3;
         $scope.messages = [
             {
@@ -25,63 +25,6 @@ LeMailModule.controller('distributListController',
                 id: 4,
                 label: "小熊把您的邮件转交给徐宇楠",
                 content: "处理进行中"
-            }
-        ];
-        $scope.mail_list = [
-            {
-                id: 1,
-                subject: "唐山铁魂有限公司：手机模型材料不足需延迟提交",
-                state: 0,
-                date: "2015-07-05 12:00:00",
-                attachment: "这是附件",
-                from: "lilelr@163.com",
-                review: 0,
-                tag: "延期",
-                belong_user_id: 0
-            },
-            {
-                id: 2,
-                subject: "北航本科生孙笑应聘总经理助手",
-                state: 0,
-                date: "2015-07-04 19:00:00",
-                attachment: "这是附件",
-                from: "sunxfancy@gmail.com",
-                review: 0,
-                tag: "招聘",
-                belong_user_id: 0
-            },
-            {
-                id: 3,
-                subject: "交水电费,要不断水断电",
-                state: 3,
-                date: "2015-07-03 10:00:00",
-                attachment: "这是附件",
-                from: "xiong@gmail.com",
-                review: 0,
-                tag: "战书",
-                belong_user_id: 0
-            },
-            {
-                id: 4,
-                subject: "广州大同塑胶有限公司：塑胶降价，是否需要进货",
-                state: 3,
-                date: "2015-07-02 10:23:50",
-                attachment: "这是附件",
-                from: "datong@126.com",
-                review: 0,
-                tag: "战书",
-                belong_user_id: 0
-            },
-            {
-                id: 5,
-                subject: "深圳绝对值科技有限公司：贵公司网站项目已部署完成，请验收",
-                state: 3,
-                date: "2015-07-01 12:56:23",
-                attachment: "这是附件",
-                from: "ABS@gmail.com",
-                review: 0,
-                tag: "战书",
-                belong_user_id: 0
             }
         ];
         $scope.mail_list = [];
@@ -139,8 +82,14 @@ LeMailModule.controller('distributListController',
             $location.path('/handler/new')
         };
 
-        $scope.inform = function ($event) {
-            alert("大圣，快去实现distributeController的inform方法");
+        $scope.inform = function ($event, id) {
+            $scope.to_id = id;
+            ngDialog.open({
+                template : '/template/dispatchinfohandle.html',
+                controller : 'dispatchInfoHandleController',
+                scope: $scope
+            });
+
             $event.stopPropagation();
         };
 

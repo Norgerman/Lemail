@@ -1,6 +1,7 @@
 package lemail.api;
 
 import lemail.model.Message;
+import lemail.model.Outbox;
 import lemail.model.User;
 import lemail.utils.Action;
 import lemail.utils.DBSession;
@@ -32,15 +33,15 @@ public class MessageOperation {
                 User toUser = (User) DBSession.find_first(User.class, Restrictions.eq("id", to));
                 if (toUser != null) {
                         if (content.isEmpty()) {
-                            Action.error(404, "内容为空");
+                            Action.error(400, "内容为空");
                         } else {
                             Message msg = new Message(fromUser, to, new Date(), content);
                             if(mail_checked_id!=null){
-                                User checkUser = (User) DBSession.find_first(User.class, Restrictions.eq("id", mail_checked_id));
-                                if(checkUser!=null){
+                                Outbox checkMail = (Outbox) DBSession.find_first(Outbox.class, Restrictions.eq("id", mail_checked_id));
+                                if(checkMail!=null){
                                     msg.setMailCheckedId(mail_checked_id);
                                 }else {
-                                      Action.error(403, "审核者不存在");
+                                      Action.error(403, "要绑定的邮件不存在");
                                 }
                             }
                             s.beginTransaction();

@@ -68,14 +68,15 @@ LeMailModule.controller('usersController',
                 url: '/api/manager/change',
                 method: 'POST',
                 params: temp
-            }).success(function(response, status, headers, config){
+            }).success(function(response){
                 console.log(response);
                 if (response.status == 0){
                     $scope.message = "保存成功";
+                    location.reload(true);
                 }else{
                     $scope.message = response.message;
                 }
-            }).error(function(response, status, headers, config){
+            }).error(function(response){
                 console.log(response);
             });
             $scope.edit_line = -1;
@@ -86,6 +87,28 @@ LeMailModule.controller('usersController',
         $scope.show_checker = {};
         $scope.select_checker = function (s) {
             $scope.show_checker = s;
+        };
+
+        $scope.getMore = function (more_page) {
+            $http({
+                url: '/api/manager/user',
+                method: 'GET',
+                params: {
+                    page : more_page
+                }
+            }).success(function(response, status, headers, config){
+                console.log(response);
+                if (response.status == 0){
+                    $scope.users = response.data.list;
+                    $scope.pageSum = response.data.sum;
+                    $scope.pageNum = response.data.page;
+                    $scope.saved_users = clone($scope.users);
+                }else{
+                    alert(response.message);
+                }
+            }).error(function(response, status, headers, config){
+                console.log(response);
+            });
         };
 
         $scope.onPageLoad = function() {

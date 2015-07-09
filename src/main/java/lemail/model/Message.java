@@ -41,7 +41,7 @@ public class Message implements Serializable {
         this.state = 0;
     }
 
-    Message() {
+    public Message() {
 
     }
 

@@ -32,22 +32,27 @@ LeMailModule.controller('handlerHandleController',
         $scope.reply = function () {
             $location.path('/handler/new/'+$scope.mail_id);
         };
-        
+
         $scope.done = function () {
-            $http({
-                url: '/api/handler/handlemail',
-                method: 'POST',
-                params: {
-                    id: $scope.mail_id,
-                    needreply : false
-                }
-            }).success(function(response){
-                if (response.status == 0) {
-                    //$location.path('/handler/todo');
-                    window.location = '/#/handler/todo';
-                } else alert(response.message);
-            }).error(function(response){
-                console.log(response);
+            $scope.message = '您确认提交吗？';
+            ngDialog.openConfirm({
+                template: '/template/dialog.html',
+                scope: $scope
+            }).then(function (value) {
+                $http({
+                    url: '/api/handler/handlemail',
+                    method: 'POST',
+                    params: {
+                        id: $scope.mail_id,
+                        needreply : false
+                    }
+                }).success(function(response){
+                    if (response.status == 0) {
+                        window.location = '/#/handler/todo';
+                    } else alert(response.message);
+                }).error(function(response){
+                    console.log(response);
+                });
             });
         };
 

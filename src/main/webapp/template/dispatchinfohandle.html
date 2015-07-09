@@ -1,0 +1,12 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-8">
+            <label for="inputmsg" class="sr-only"></label>
+            <textarea class="form-control" id="inputmsg" rows="4" placeholder="通知内容" ng-model="msg"></textarea>
+        </div>
+        <div class="col-sm-4">
+            <button class="btn btn-default" ng-click="cancel()">取消</button>
+            <button class="btn btn-primary" ng-click="submit()">发送</button>
+        </div>
+    </div>
+</form>
