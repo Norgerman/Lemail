@@ -14,7 +14,7 @@ LeMailModule.controller('usersController',
         }];
         $scope.edit_line = -1;
         $scope.saved_user = {};
-
+        $scope.show_password = '';
         $scope.clickToOpen = function () {
             ngDialog.open({
                 template: '/template/signup.html',
@@ -23,9 +23,22 @@ LeMailModule.controller('usersController',
             });
         };
 
+        function translate(roles) {
+            var role_str = '';
+            if (roles.manager == 1) role_str = role_str.concat('M');
+            if (roles.dispatcher == 1) role_str = role_str.concat('D');
+            if (roles.handler == 1) role_str = role_str.concat('H');
+            if (roles.reviewer == 1) role_str = role_str.concat('R');
+            return role_str;
+        }
+
         function cancel(line) {
-            if (line != -1)
+            if (line != -1) {
+                console.log($scope.users);
                 $scope.users[line] = $scope.saved_user;
+                console.log($scope.users);
+            }
+            $scope.show_password = '';
         }
 
         $scope.onSelectLine = function (line) {
@@ -40,10 +53,22 @@ LeMailModule.controller('usersController',
         };
 
         $scope.saveUser = function ($event, user) {
+            console.log($scope.show_checker);
+            $scope.user.default_checker = $scope.form_checker.id;
+            var temp = {
+                id : user.id,
+                name : user.name,
+                role : translate(user.roles),
+                default_checker : $scope.show_checker.id
+            };
+            console.log($scope.show_password);
+            if ($scope.show_password)
+                temp.password = $scope.show_password;
+
             $http({
                 url: '/api/manager/change',
                 method: 'POST',
-                params: $scope.user
+                params: temp
             }).success(function(response, status, headers, config){
                 console.log(response);
                 if (response.status == 0){
@@ -55,13 +80,14 @@ LeMailModule.controller('usersController',
                 console.log(response);
             });
             $scope.edit_line = -1;
+            $scope.show_password = '';
             $event.stopPropagation();
         };
 
         $scope.department = [];
         $scope.show_checker = {};
-        $scope.select_checker = function (u, s) {
-            u.checker = s;
+        $scope.select_checker = function (s) {
+            $scope.show_checker = s;
         };
 
         $scope.onPageLoad = function() {
@@ -109,8 +135,24 @@ LeMailModule.controller('usersController',
             });
         };
 
-        $scope.onSaveOld = function (user) {
-            $scope.saved_user = user;
+
+
+        function clone(myObj){
+            if(typeof(myObj) != 'object') return myObj;
+            if(myObj == null) return myObj;
+
+            var myNewObj = {};
+
+            for (var i in myObj)
+                myNewObj[i] = clone(myObj[i]);
+            return myNewObj;
+        }
+
+        $scope.onSaveOld = function (user, line) {
+            cancel($scope.edit_line);
+            $scope.edit_line = line;
+            $scope.saved_user = clone(user);
+            console.log(user);
         };
 
 
@@ -119,12 +161,7 @@ LeMailModule.controller('usersController',
         $scope.user = {};
         $scope.onSave = function () {
             $scope.user.department_id = $scope.selectedDepartment.id;
-            var role_str = '';
-            if ($scope.roles.manager == 1) role_str = role_str.concat('M');
-            if ($scope.roles.dispatcher == 1) role_str = role_str.concat('D');
-            if ($scope.roles.handler == 1) role_str = role_str.concat('H');
-            if ($scope.roles.reviewer == 1) role_str = role_str.concat('R');
-            $scope.user.role = role_str;
+            $scope.user.role = translate($scope.roles);
             $scope.user.default_checker = $scope.form_checker.id;
             $http({
                 url: '/api/manager/signup',
