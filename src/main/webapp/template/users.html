@@ -6,6 +6,7 @@
 
     <div class="content-div" ng-controller="usersController" ng-init="onPageLoad()">
         <div class="users-form">
+
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -14,6 +15,8 @@
                         <td>用户昵称</td>
                         <td>密码</td>
                         <td>用户权限</td>
+                        <td>审核人员</td>
+                        <td><button class="btn btn-primary" ng-click="clickToOpen()">添加用户</button></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +56,21 @@
                     </tr>
                 </tbody>
             </table>
-            <button class="btn btn-primary" ng-click="clickToOpen()">添加用户</button>
+            <nav ng-if="(pageSum-1) * 10 + pageNum >= 10">
+                <ul class="pagination">
+                    <li ng-click="getMore(0)">
+                        <a href="javascript:void(0)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li ng-repeat="pageIndex in range(1, pageSum)" ng-click="getMore(pageIndex-1)" ng-class="{active:pageIndex == pageNum}"><a href="javascript:void(0)">{{pageIndex}}</a></li>
+                    <li ng-click="getMore(pageSum-1)">
+                        <a href="javascript:void(0)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
