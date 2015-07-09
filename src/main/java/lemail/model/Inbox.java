@@ -1,5 +1,7 @@
 package lemail.model;
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.lang.annotation.Target;
@@ -175,10 +177,11 @@ public class Inbox implements Serializable {
         if (uid != -1) {
             tmp_state = handler != null && handler.getId() == uid ? tmp_state : -1;
         }
-        str = String.format("{\"id\":%d, \"subject\":\"%s\", \"content\":\"%s\"," +
+        String json = new JSONObject().put("content", content).toString();
+        str = String.format("{\"id\":%d, \"subject\":\"%s\", %s," +
                         "\"state\":%d, \"date\":\"%s\", \"attachment\":%s, \"from\":\"%s\"," +
                         "\"review\":%s,\"tag\":%s,\"belong\":%s,\"readers\":%s}",
-                id, subject, content.replaceAll("\\r?\\n", "\\\\n").replaceAll("\"", "\\\\\""), tmp_state, format.format(date), tmp_attach, from, tmp_review, tmp_tag, formatHandler(), formatReaders());
+                id, subject, json.substring(1, json.length() - 2), tmp_state, format.format(date), tmp_attach, from, tmp_review, tmp_tag, formatHandler(), formatReaders());
         return str;
     }
 
