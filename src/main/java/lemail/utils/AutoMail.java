@@ -15,7 +15,7 @@ import java.util.UUID;
  */
 public class AutoMail {
 
-    private Mail mail = null;
+//    private Mail mail = null;
     private static AutoMail autoMail = new AutoMail();
 
     private Date last;
@@ -31,7 +31,7 @@ public class AutoMail {
 
     public AutoMail() {
         if (!load()) return;
-        mail = new Mail(username, password, hostname, hostname_send);
+//        mail = new Mail(username, password, hostname, hostname_send);
     }
 
     public void setProp(String username, String password, String hostname, String hostname_send) {
@@ -39,7 +39,7 @@ public class AutoMail {
         this.password = password;
         this.hostname = hostname;
         this.hostname_send = hostname_send;
-        mail = new Mail(username, password, hostname, hostname_send);
+//        mail = new Mail(username, password, hostname, hostname_send);
         save();
         try {
             Update();
@@ -88,7 +88,7 @@ public class AutoMail {
             last = new Date();
         }
 
-        mail = new Mail(username, password, hostname, hostname_send);
+        Mail mail = new Mail(username, password, hostname, hostname_send);
         Message[] msgs = mail.getBox("INBOX");
         for (Message msg : msgs) {
             try {
@@ -121,6 +121,7 @@ public class AutoMail {
     }
 
     public void post(String subject, String content, String... to) throws MessagingException {
+        Mail mail = new Mail(username, password, hostname, hostname_send);
         mail.PostMail(subject, content, to);
     }
 
