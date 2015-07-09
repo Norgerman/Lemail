@@ -33,7 +33,7 @@ public class MessageOperation {
                 User toUser = (User) DBSession.find_first(User.class, Restrictions.eq("id", to));
                 if (toUser != null) {
                         if (content.isEmpty()) {
-                            Action.error(404, "内容为空");
+                            Action.error(400, "内容为空");
                         } else {
                             Message msg = new Message(fromUser, to, new Date(), content);
                             if(mail_checked_id!=null){
