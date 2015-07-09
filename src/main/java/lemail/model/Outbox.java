@@ -1,5 +1,7 @@
 package lemail.model;
 
+import org.json.JSONObject;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.security.MessageDigest;
@@ -159,10 +161,11 @@ public class Outbox implements Serializable {
         if (attachment != null) {
             tmp_attach = "\"" + attachment + "\"";
         }
-        str = String.format("{\"id\":%d, \"subject\":\"%s\", \"content\":\"%s\"," +
+        String json = new JSONObject().put("content", content).toString();
+        str = String.format("{\"id\":%d, \"subject\":\"%s\", %s," +
                         "\"state\":%d, \"date\":\"%s\", \"attachment\":%s, \"to\":\"%s\"," +
                         "\"tag\":%s,\"checker\":%s,\"sender\":%s,\"reply\":%s}",
-                id, subject, content.replaceAll("\\r?\\n", "\\\\n").replaceAll("\"", "\\\\\""), state,
+                id, subject, json.substring(1, json.length() - 1), state,
                 format.format(date), tmp_attach, to, tmp_tag, formatChecker(),
                 sender.toSimpleJson(), formatReply());
         return str;
