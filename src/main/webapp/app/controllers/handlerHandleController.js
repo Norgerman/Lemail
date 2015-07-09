@@ -2,8 +2,8 @@
  * Created by sxf on 15-7-7.
  */
 LeMailModule.controller('handlerHandleController',
-    ['$scope','$http','$sce','$routeParams','$location',
-    function($scope, $http, $sce, $routeParams, $location){
+    ['$scope','$http','$sce','$routeParams','$location','ngDialog',
+    function($scope, $http, $sce, $routeParams, $location, ngDialog){
 
         $scope.mail_id = 0;
         $scope.mail = {};
@@ -43,7 +43,8 @@ LeMailModule.controller('handlerHandleController',
                 }
             }).success(function(response){
                 if (response.status == 0) {
-                    $location.path('/handler/todo');
+                    //$location.path('/handler/todo');
+                    window.location = '/#/handler/todo';
                 } else alert(response.message);
             }).error(function(response){
                 console.log(response);
