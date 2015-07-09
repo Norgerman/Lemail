@@ -106,7 +106,7 @@ public class Message implements Serializable {
         String[] contentstrs = this.content.split("\\|");
         if (contentstrs!=null){
             if (contentstrs[0].equals("分发")){
-                this.content = from.getName()+"将邮件分发给您处理："+contentstrs[1];
+                this.content = from.getName()+"将邮件分发给您处理|"+contentstrs[1];
             }
 
         }
