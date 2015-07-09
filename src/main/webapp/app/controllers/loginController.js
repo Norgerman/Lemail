@@ -1,7 +1,9 @@
 /**
  * Created by vvliebe on 15-7-4.
  */
-LeMailModule.controller('loginController', ['$scope','$http','$location', '$templateCache',function($scope, $http, $location, $templateCache){
+LeMailModule.controller('loginController',
+    ['$scope','$http','$location', '$templateCache','ngDialog',
+        function($scope, $http, $location, $templateCache, ngDialog){
     $scope.text = "LEMAIL";
     $scope.userinfo = {
         username: '',
@@ -17,9 +19,6 @@ LeMailModule.controller('loginController', ['$scope','$http','$location', '$temp
                  params: $scope.userinfo
              }).success(function(response, status, headers, config){
                  console.log(response);
-                 //console.log(status);
-                 //console.log(headers);
-                 //console.log(config);
                  if (response.status == 0){
                      // login success
                      console.log(response);
@@ -35,10 +34,12 @@ LeMailModule.controller('loginController', ['$scope','$http','$location', '$temp
                      }
                      //$location.path("/dispatcher");
                      $scope.$emit('login', response.data, role);
-                 }else if(response.status == 1000){
-
-                 }else if(response.status == 1001){
-
+                 }else {
+                     $scope.message = response.message;
+                     ngDialog.openConfirm({
+                         template: '/template/alert.html',
+                         scope: $scope
+                     });
                  }
              }).error(function(response, status, headers, config){
 
