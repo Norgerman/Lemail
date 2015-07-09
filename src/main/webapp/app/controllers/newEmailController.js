@@ -3,7 +3,8 @@
  */
 
 LeMailModule.controller('newEmailController',
-    ['$scope','$http','$location','$routeParams',function($scope, $http, $location, $routeParams){
+    ['$scope','$http','$location','$routeParams',
+        function($scope, $http, $location, $routeParams){
         $scope.tolist = [ '' ];
         $scope.subject = '';
         $scope.content = '';
@@ -88,7 +89,8 @@ LeMailModule.controller('newEmailController',
             ).success(function(response){
                 if (response.status == 0){
                     alert('回复成功');
-                    $location.path('/handler/todo');
+                    //$location.path('/handler/todo');
+                    window.location = '/#/handler/todo';
                 } else {
                     alert(response.message);
                 }

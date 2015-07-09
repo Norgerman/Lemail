@@ -1,7 +1,8 @@
 /**
  * Created by vvliebe on 15-7-8.
  */
-LeMailModule.controller('reviewToDoController', ['$scope', '$http', '$location', '$routeParams', function($scope, $http, $location, $routeParams){
+LeMailModule.controller('reviewToDoController', ['$scope', '$http', '$location', '$routeParams',
+    function($scope, $http, $location, $routeParams){
     $scope.onPageLoad = function() {
         var url ;
         if($routeParams.type == "unchecked"){
