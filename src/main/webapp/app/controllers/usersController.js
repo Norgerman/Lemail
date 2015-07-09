@@ -88,6 +88,28 @@ LeMailModule.controller('usersController',
             $scope.show_checker = s;
         };
 
+        $scope.getMore = function (more_page) {
+            $http({
+                url: '/api/manager/user',
+                method: 'GET',
+                params: {
+                    page : more_page
+                }
+            }).success(function(response, status, headers, config){
+                console.log(response);
+                if (response.status == 0){
+                    $scope.users = response.data.list;
+                    $scope.pageSum = response.data.sum;
+                    $scope.pageNum = response.data.page;
+                    $scope.saved_users = clone($scope.users);
+                }else{
+                    alert(response.message);
+                }
+            }).error(function(response, status, headers, config){
+                console.log(response);
+            });
+        };
+
         $scope.onPageLoad = function() {
             $scope.message = '';
             $http({
