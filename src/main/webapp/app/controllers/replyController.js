@@ -3,6 +3,7 @@
  */
 LeMailModule.controller('replyController', ['$scope', '$http', '$location', '$routeParams',
     function ($scope, $http, $location, $routeParams) {
+        $scope.review_content = "";
         $scope.reply = {
                 "id": 2,
                 "subject": "xx",
@@ -46,6 +47,10 @@ LeMailModule.controller('replyController', ['$scope', '$http', '$location', '$ro
         };
 
         $scope.review_mail = function(isPass){
+            if($scope.review_content == ""){
+                alert("审核意见不能为空");
+                return
+            }
             $http({
                 url: '/api/reviewer/checkmail',
                 method: 'GET',
@@ -56,12 +61,32 @@ LeMailModule.controller('replyController', ['$scope', '$http', '$location', '$ro
             }).success(function (response, status, headers, config) {
                 console.log(response);
                 if (response.status == 0) {
-                    alert(response.message);
+
                 } else {
                     alert(response.message);
                 }
             }).error(function (response, status, headers, config) {
                 console.log(response);
             });
+            if(!isPass){
+                $http({
+                    url: '/api/message/send',
+                    method: 'GET',
+                    params: {
+                        to: $scope.reply.to,
+                        content: "审核|"+$scope.review_content,
+                        mail_checked_id: $scope.mail_id
+                    }
+                }).success(function (response, status, headers, config) {
+                    console.log(response);
+                    if (response.status == 0) {
+                        alert(response.message);
+                    } else {
+                        alert(response.message);
+                    }
+                }).error(function (response, status, headers, config) {
+                    console.log(response);
+                });
+            }
         };
     }]);

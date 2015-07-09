@@ -94,6 +94,9 @@ LeMailModule.controller('reviewToDoController', ['$scope', '$http', '$location',
             }
         ];
         $scope.gotoReply = function(id){
+            if($scope.isReviewed){
+                return;
+            }
             window.location = "/#/reviewer/reply/"+id;
         }
     }]);
