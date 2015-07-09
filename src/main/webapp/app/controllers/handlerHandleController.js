@@ -48,7 +48,6 @@ LeMailModule.controller('handlerHandleController',
                     }
                 }).success(function(response){
                     if (response.status == 0) {
-                        //$location.path('/handler/todo');
                         window.location = '/#/handler/todo';
                     } else alert(response.message);
                 }).error(function(response){

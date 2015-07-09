@@ -58,6 +58,16 @@ LeMailModule.controller('newEmailController',
             return str.join("&").toString();
         }
 
+        function alert_ok() {
+            $scope.message = '发送成功';
+            ngDialog.openConfirm({
+                template: '/template/alert.html',
+                scope: $scope
+            }).then(function () {
+                window.location = '/#/handler/todo';
+            });
+        }
+
         function send_new () {
             $http.post(
                 '/api/handler/postmail?' + transFn({
@@ -67,13 +77,7 @@ LeMailModule.controller('newEmailController',
                 })
             ).success(function(response){
                     if (response.status == 0){
-                        $scope.message = '发送成功';
-                        ngDialog.openConfirm({
-                            template: '/template/alert.html',
-                            scope: $scope
-                        }).then(function () {
-                            window.location = '/#/handler/todo';
-                        });
+                        alert_ok();
                         $scope.Init();
                     } else {
                         alert(response.message);
@@ -94,13 +98,7 @@ LeMailModule.controller('newEmailController',
                 })
             ).success(function(response){
                 if (response.status == 0){
-                    $scope.message = '发送成功';
-                    ngDialog.openConfirm({
-                        template: '/template/alert.html',
-                        scope: $scope
-                    }).then(function () {
-                        window.location = '/#/handler/todo';
-                    });
+                    alert_ok();
                 } else {
                     alert(response.message);
                 }
@@ -126,6 +124,4 @@ LeMailModule.controller('newEmailController',
                 else send_reply();
             });
         };
-
-
 }]);

@@ -68,14 +68,15 @@ LeMailModule.controller('usersController',
                 url: '/api/manager/change',
                 method: 'POST',
                 params: temp
-            }).success(function(response, status, headers, config){
+            }).success(function(response){
                 console.log(response);
                 if (response.status == 0){
                     $scope.message = "保存成功";
+                    location.reload(true);
                 }else{
                     $scope.message = response.message;
                 }
-            }).error(function(response, status, headers, config){
+            }).error(function(response){
                 console.log(response);
             });
             $scope.edit_line = -1;

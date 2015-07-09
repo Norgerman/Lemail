@@ -6,7 +6,6 @@
 
     <div class="content-div" ng-controller="usersController" ng-init="onPageLoad()">
         <div class="users-form">
-
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -16,7 +15,6 @@
                         <td>密码</td>
                         <td>用户权限</td>
                         <td>审核人员</td>
-                        <td><button class="btn btn-primary" ng-click="clickToOpen()">添加用户</button></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,10 +24,10 @@
                         <td ng-if="edit_line!=$index">{{u.name}}</td>
                         <td ng-if="edit_line!=$index">***</td>
                         <td ng-if="edit_line==$index">
-                            <input type="text" ng-model="u.name"/>
+                            <input type="text" ng-model="u.name" style="width: 80px"/>
                         </td>
                         <td ng-if="edit_line==$index">
-                            <input type="password" ng-model="u.show_password"/>
+                            <input type="password" ng-model="u.show_password" style="width: 80px"/>
                         </td>
                         <td>
                             <label><input type="checkbox" ng-model="u.roles.dispatcher"> 分发</label>&nbsp;
@@ -44,7 +42,7 @@
                             <select ng-model="show_checker"
                                     ng-options="dep as dep.name for dep in checkers"
                                     ng-change="select_checker(show_checker)"
-                                    style="width: 100px" >
+                                    style="width: 80px" >
                                 <option></option>
                             </select>
                         </td>
@@ -56,21 +54,26 @@
                     </tr>
                 </tbody>
             </table>
-            <nav ng-if="(pageSum-1) * 10 + pageNum >= 10">
-                <ul class="pagination">
-                    <li ng-click="getMore(0)">
-                        <a href="javascript:void(0)" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    <li ng-repeat="pageIndex in range(1, pageSum)" ng-click="getMore(pageIndex-1)" ng-class="{active:pageIndex == pageNum}"><a href="javascript:void(0)">{{pageIndex}}</a></li>
-                    <li ng-click="getMore(pageSum-1)">
-                        <a href="javascript:void(0)" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="row">
+                <nav class="col-sm-8" ng-if="(pageSum-1) * 10 + pageNum >= 10">
+                    <ul class="pagination">
+                        <li ng-click="getMore(0)">
+                            <a href="javascript:void(0)" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li ng-repeat="pageIndex in range(1, pageSum)" ng-click="getMore(pageIndex-1)" ng-class="{active:pageIndex == pageNum}"><a href="javascript:void(0)">{{pageIndex}}</a></li>
+                        <li ng-click="getMore(pageSum-1)">
+                            <a href="javascript:void(0)" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="col-sm-4">
+                    <button class="btn btn-primary pull-right" ng-click="clickToOpen()">添加用户</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

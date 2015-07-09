@@ -28,12 +28,20 @@
         <table class="table table-hover list-table">
             <tr ng-repeat="mail in mail_list"
                 ng-class="{'list-table-unread':mail.state==0}" ng-click="distribute(mail.id)">
+                <td><i ng-class="{
+                    'fa fa-eye-slash text-warning':mail.state==2,
+                    'fa fa-leanpub text-primary':mail.state==3,
+                    'fa fa-check-circle text-info':mail.state==4,
+                    'fa fa-exclamation-circle text-info':mail.state==5,
+                    'fa fa-reply text-warning':mail.state==6,
+                    'fa fa-check text-success':mail.state==7
+                }"></i></td>
                 <td>{{ mail.from }}</td>
                 <td>{{ mail.subject }}</td>
                 <td>{{ mail.date }}</td>
                 <td>{{ mail.belong.name }}</td>
                 <td class="text-right" >
-                    <button class="btn-primary" ng-if="mail.belong" ng-click="inform($event)">通知</button>
+                    <button class="btn-primary" ng-if="mail.belong" ng-click="inform($event, mail.belong.id)">通知</button>
                 </td>
             </tr>
         </table>
@@ -44,7 +52,9 @@
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
-                <li ng-repeat="pageIndex in range(1, pageSum)" ng-click="getMore(pageIndex-1)" ng-class="{active:pageIndex == pageNum}"><a href="javascript:void(0)">{{pageIndex}}</a></li>
+                <li ng-repeat="pageIndex in range(1, pageSum)"
+                    ng-click="getMore(pageIndex-1)" ng-class="{active:pageIndex==pageNum}">
+                    <a href="javascript:void(0)">{{pageIndex}}</a></li>
                 <li ng-click="getMore(pageSum-1)">
                     <a href="javascript:void(0)" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
