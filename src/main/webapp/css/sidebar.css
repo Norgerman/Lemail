@@ -65,6 +65,10 @@
     font-size: small;
 }
 
+.link-active{
+    color: #2A6496 !important;
+}
+
 .white {
    color: #ffffff;
 }

@@ -102,20 +102,22 @@ LeMailModule.controller('LeMailController',
             };
 
             $scope.statusList = [
-                {style:'', statue:"未读邮件"},
-                {style:'fa fa-circle', statue:"未分发邮件"},
-                {style:'', statue:"未处理邮件"},
-                {style:'fa fa-spinner', statue:"处理中邮件"},
-                {style:'', statue:"审核中邮件"},
-                {style:'fa fa-undo', statue:"返回邮件"},
-                {style:'fa fa-share', statue:"转交邮件"},
-                {style:'fa fa-check-circle', statue:"已完成邮件"}
+                {style: '', statue: "未读邮件"},
+                {style: 'fa fa-circle', statue: "未分发邮件"},
+                {style: '', statue: "未处理邮件"},
+                {style: 'fa fa-spinner', statue: "处理中邮件"},
+                {style: '', statue: "审核中邮件"},
+                {style: 'fa fa-undo', statue: "返回邮件"},
+                {style: 'fa fa-share', statue: "转交邮件"},
+                {style: 'fa fa-check-circle', statue: "已完成邮件"}
             ];
 
 
             $scope.$on('login', function (event, data, role) {
                 $scope.user = data;
                 $scope.title = "欢迎使用Lemail";
+                $scope.activeItem.key = role;
+                $scope.activeItem.index = 0;
                 //console.log("..."+$scope.sidebarItems[role]["item"][0]["url"].substr(2));
                 $location.path($scope.sidebarItems[role]["item"][0]["url"].substr(2));
             });
@@ -133,6 +135,16 @@ LeMailModule.controller('LeMailController',
                 }).error(function (response) {
 
                 });
+            };
+
+            $scope.sidebarOnClick = function (key, index) {
+                $scope.activeItem.key = key;
+                $scope.activeItem.index = index;
+            };
+
+            $scope.activeItem = {
+                key: "dispatcher",
+                index: 0
             };
 
             $scope.load = function () {
