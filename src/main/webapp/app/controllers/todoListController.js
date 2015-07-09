@@ -51,6 +51,13 @@ LeMailModule.controller('todoListController', ['$scope','$http','$location',func
             console.log(response);
             if (response.status == 0) {
                 $scope.messages = response.data;
+                for (var i = 0; i < $scope.messages.length; ++i)
+                {
+                    var msg = $scope.messages[i];
+                    var ss = msg.content.split('|');
+                    msg.label = ss[0];
+                    msg.content = ss[1];
+                }
             } else {
                 alert(response.message);
             }

@@ -14,7 +14,21 @@ LeMailModule.controller('newEmailController',
             console.log($scope.tolist);
         };
 
-        $scope.Init = function () {
+            function html_encode(str)
+            {
+                var s = "";
+                if (str.length == 0) return "";
+                s = str.replace(/&/g, "&gt;");
+                s = s.replace(/</g, "&lt;");
+                s = s.replace(/>/g, "&gt;");
+                s = s.replace(/ /g, "&nbsp;");
+                s = s.replace(/\'/g, "&#39;");
+                s = s.replace(/\"/g, "&quot;");
+                s = s.replace(/\n/g, "<br>");
+                return s;
+            }
+
+            $scope.Init = function () {
             $scope.tolist = [ '' ];
             $scope.subject = '';
             $scope.content = '';
@@ -27,8 +41,13 @@ LeMailModule.controller('newEmailController',
                 }).success(function(response){
                     if (response.status == 0) {
                         $scope.mail = response.data;
+                        console.log($scope.mail);
                         $scope.subject = '回复： '+$scope.mail.subject;
                         $scope.tolist[0] = $scope.mail.from;
+                        $scope.content = '<br><hr>' + '<p>From: '+ html_encode($scope.mail.from) +
+                                         '</p><p>Date: ' + $scope.mail.date +
+                                         '</p><blockquote>'+ $scope.mail.content + '</blockquote>';
+                        console.log($scope.content);
                     } else alert(response.message);
                 }).error(function(response){
                     console.log(response);

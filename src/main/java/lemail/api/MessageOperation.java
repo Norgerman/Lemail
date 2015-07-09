@@ -72,7 +72,7 @@ public class MessageOperation {
             check();
             Integer uid = (Integer) Action.getSession("uid");
 //            List<Message> msgList = DBSession.find_list(Message.class, Order.desc("date"), Restrictions.eq("to", uid));
-            List<Message> msgList = DBSession.executeSql("from Message", 0, Integer.MAX_VALUE, null,
+            List<Message> msgList = DBSession.executeSql("from Message", 0, Integer.MAX_VALUE, "order by date desc",
                     new Condition("to", "to=:to", uid));
             StringBuilder sb = new StringBuilder();
             sb.append("[");
