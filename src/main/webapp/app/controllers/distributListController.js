@@ -83,11 +83,13 @@ LeMailModule.controller('distributListController',
         };
 
         $scope.inform = function ($event, id) {
+            $scope.to_id = id;
             ngDialog.open({
                 template : '/template/dispatchinfohandle.html',
                 controller : 'dispatchInfoHandleController',
                 scope: $scope
             });
+
             $event.stopPropagation();
         };
 
