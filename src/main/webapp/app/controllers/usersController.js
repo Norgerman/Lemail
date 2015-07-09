@@ -12,16 +12,8 @@ LeMailModule.controller('usersController',
             "roles": { "manager": false, "dispatcher": false, "handler": false, "reviewer": true },
             "checker": null
         }];
+        $scope.saved_users = {}; // 备份模型
         $scope.edit_line = -1;
-        $scope.saved_user = {};
-        $scope.show_password = '';
-        $scope.clickToOpen = function () {
-            ngDialog.open({
-                template: '/template/signup.html',
-                className: 'ngdialog-theme-default',
-                scope: $scope
-            });
-        };
 
         function translate(roles) {
             var role_str = '';
@@ -32,17 +24,26 @@ LeMailModule.controller('usersController',
             return role_str;
         }
 
+        function clone(myObj){
+            if(typeof(myObj) != 'object') return myObj;
+            if(myObj == null) return myObj;
+
+            var myNewObj = {};
+
+            for (var i in myObj)
+                myNewObj[i] = clone(myObj[i]);
+            return myNewObj;
+        }
+
         function cancel(line) {
             if (line != -1) {
-                console.log($scope.users);
-                $scope.users[line] = $scope.saved_user;
-                console.log($scope.users);
+                $scope.users[line] = clone($scope.saved_users[line]);
             }
-            $scope.show_password = '';
         }
 
         $scope.onSelectLine = function (line) {
-            cancel($scope.edit_line);
+            if (line != $scope.edit_line)
+                cancel($scope.edit_line);
             $scope.edit_line = line;
         };
 
@@ -53,7 +54,6 @@ LeMailModule.controller('usersController',
         };
 
         $scope.saveUser = function ($event, user) {
-            console.log($scope.show_checker);
             $scope.user.default_checker = $scope.form_checker.id;
             var temp = {
                 id : user.id,
@@ -61,9 +61,8 @@ LeMailModule.controller('usersController',
                 role : translate(user.roles),
                 default_checker : $scope.show_checker.id
             };
-            console.log($scope.show_password);
-            if ($scope.show_password)
-                temp.password = $scope.show_password;
+            if (user.show_password)
+                temp.password = user.show_password;
 
             $http({
                 url: '/api/manager/change',
@@ -80,7 +79,6 @@ LeMailModule.controller('usersController',
                 console.log(response);
             });
             $scope.edit_line = -1;
-            $scope.show_password = '';
             $event.stopPropagation();
         };
 
@@ -99,6 +97,7 @@ LeMailModule.controller('usersController',
                 console.log(response);
                 if (response.status == 0){
                     $scope.users = response.data.list;
+                    $scope.saved_users = clone($scope.users);
                 }else{
                     alert(response.message);
                 }
@@ -136,27 +135,16 @@ LeMailModule.controller('usersController',
         };
 
 
+        // 对话框使用
 
-        function clone(myObj){
-            if(typeof(myObj) != 'object') return myObj;
-            if(myObj == null) return myObj;
-
-            var myNewObj = {};
-
-            for (var i in myObj)
-                myNewObj[i] = clone(myObj[i]);
-            return myNewObj;
-        }
-
-        $scope.onSaveOld = function (user, line) {
-            cancel($scope.edit_line);
-            $scope.edit_line = line;
-            $scope.saved_user = clone(user);
-            console.log(user);
+        $scope.clickToOpen = function () {
+            ngDialog.open({
+                template: '/template/signup.html',
+                className: 'ngdialog-theme-default',
+                scope: $scope
+            });
         };
 
-
-        // 对话框使用
         $scope.message = '';
         $scope.user = {};
         $scope.onSave = function () {
