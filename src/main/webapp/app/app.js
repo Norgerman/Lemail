@@ -102,15 +102,14 @@ LeMailModule.controller('LeMailController',
             };
 
             $scope.statusList = [
-                '',
-                'fa fa-circle',
-                '',
-                'fa fa-spinner',
-                '',
-                'fa fa-undo',
-                'a fa-share',
-                'fa fa-reply text-warning',
-                'fa fa-check-circle'
+                {style:'', statue:"未读邮件"},
+                {style:'fa fa-circle', statue:"未分发邮件"},
+                {style:'', statue:"未处理邮件"},
+                {style:'fa fa-spinner', statue:"处理中邮件"},
+                {style:'', statue:"审核中邮件"},
+                {style:'fa fa-undo', statue:"返回邮件"},
+                {style:'fa fa-share', statue:"转交邮件"},
+                {style:'fa fa-check-circle', statue:"已完成邮件"}
             ];
 
 
