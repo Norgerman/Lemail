@@ -117,7 +117,8 @@ public class Dispatcher {
         Session s = DBSession.getSession();
         try {
             check();
-            List<User> us = DBSession.find_list(User.class, Restrictions.ilike("role", "%H%"));
+            List<User> us = DBSession.executeSql("from User",0,Integer.MAX_VALUE,null,
+                    new Condition("role", "role like :role", "%H%"));
             StringBuilder sb = new StringBuilder();
             sb.append("[");
             for (User handler : us) {
