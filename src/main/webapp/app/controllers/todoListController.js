@@ -43,6 +43,21 @@ LeMailModule.controller('todoListController', ['$scope','$http','$location',func
         }).error(function(response, status, headers, config){
             console.log(response);
         });
+
+        $http({
+            url: '/api/message/getmsgs',
+            method: 'GET'
+        }).success(function (response) {
+            console.log(response);
+            if (response.status == 0) {
+                $scope.messages = response.data;
+            } else {
+                alert(response.message);
+            }
+        }).error(function (response, status, headers, config) {
+            console.log(response);
+        });
+
     };
 
     $scope.onSelect = function (mail_id) {

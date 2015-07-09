@@ -4,6 +4,7 @@ import lemail.model.Message;
 import lemail.model.Outbox;
 import lemail.model.User;
 import lemail.utils.Action;
+import lemail.utils.Condition;
 import lemail.utils.DBSession;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -70,7 +71,9 @@ public class MessageOperation {
         try{
             check();
             Integer uid = (Integer) Action.getSession("uid");
-            List<Message> msgList = DBSession.find_list(Message.class, Order.desc("date"),Restrictions.eq("to", uid));
+//            List<Message> msgList = DBSession.find_list(Message.class, Order.desc("date"), Restrictions.eq("to", uid));
+            List<Message> msgList = DBSession.executeSql("from Message", 0, Integer.MAX_VALUE, null,
+                    new Condition("to", "to=:to", uid));
             StringBuilder sb = new StringBuilder();
             sb.append("[");
             for (Message msg : msgList) {
