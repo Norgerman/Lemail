@@ -165,7 +165,7 @@ public class Outbox implements Serializable {
         str = String.format("{\"id\":%d, \"subject\":\"%s\", %s," +
                         "\"state\":%d, \"date\":\"%s\", \"attachment\":%s, \"to\":\"%s\"," +
                         "\"tag\":%s,\"checker\":%s,\"sender\":%s,\"reply\":%s}",
-                id, subject, json.substring(1, json.length() - 2), state,
+                id, subject, json.substring(1, json.length() - 1), state,
                 format.format(date), tmp_attach, to, tmp_tag, formatChecker(),
                 sender.toSimpleJson(), formatReply());
         return str;

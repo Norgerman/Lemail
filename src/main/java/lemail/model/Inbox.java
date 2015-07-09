@@ -181,7 +181,7 @@ public class Inbox implements Serializable {
         str = String.format("{\"id\":%d, \"subject\":\"%s\", %s," +
                         "\"state\":%d, \"date\":\"%s\", \"attachment\":%s, \"from\":\"%s\"," +
                         "\"review\":%s,\"tag\":%s,\"belong\":%s,\"readers\":%s}",
-                id, subject, json.substring(1, json.length() - 2), tmp_state, format.format(date), tmp_attach, from, tmp_review, tmp_tag, formatHandler(), formatReaders());
+                id, subject, json.substring(1, json.length() - 1), tmp_state, format.format(date), tmp_attach, from, tmp_review, tmp_tag, formatHandler(), formatReaders());
         return str;
     }
 
