@@ -5,13 +5,7 @@
 LeMailModule.controller('usersController',
     ['$scope','$http','$location','ngDialog', function($scope, $http, $location, ngDialog) {
 
-        $scope.users = [{
-            "id": 1,
-            "username": "asdd",
-            "name": "dddd",
-            "roles": { "manager": false, "dispatcher": false, "handler": false, "reviewer": true },
-            "checker": null
-        }];
+        $scope.users = [];
         $scope.saved_users = {}; // 备份模型
         $scope.edit_line = -1;
 
