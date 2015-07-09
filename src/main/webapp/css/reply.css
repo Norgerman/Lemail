@@ -1,0 +1,22 @@
+.reply-box{
+    margin-top: 50px;
+}
+
+.reply-box .title{
+    font-size: x-large;
+}
+
+.reply-box .sm-title{
+    font-size: large;
+}
+
+.reply-box>div{
+    margin-bottom: 15px !important;
+}
+
+.mail-content {
+    border-top: 1px solid #666666;
+    border-bottom: 1px solid #666666;
+    padding: 10px 10px;
+    margin: 20px 10px;
+}

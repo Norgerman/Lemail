@@ -7,3 +7,10 @@
     background-color: #eeeeee;
     overflow-y: auto;
 }
+
+.has-division:after {
+    margin-top: 10px;
+    height: 1px;
+    width: 100%;
+    background-color: #4C4C4C;
+}
