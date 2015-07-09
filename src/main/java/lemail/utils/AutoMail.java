@@ -54,7 +54,31 @@ public class AutoMail {
      *
      * @throws Exception 无法获得邮件的信息
      */
+
     public void Update() throws Exception {
+        Thread t = new Thread(new worker(this));
+        t.setDaemon(true);
+        t.start();
+    }
+
+    private class worker implements Runnable {
+        AutoMail m;
+
+        public worker(AutoMail m) {
+            this.m = m;
+        }
+
+        @Override
+        public void run() {
+            try {
+                m.update_mails();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void update_mails() throws Exception {
         Date now = new Date();
         if(last != null) {
             if (now.getTime() - last.getTime() < 600 * 1000) return;
