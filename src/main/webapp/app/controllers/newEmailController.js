@@ -3,8 +3,8 @@
  */
 
 LeMailModule.controller('newEmailController',
-    ['$scope','$http','$location','$routeParams',
-        function($scope, $http, $location, $routeParams){
+    ['$scope','$http','$location','$routeParams','ngDialog',
+        function($scope, $http, $location, $routeParams, ngDialog){
         $scope.tolist = [ '' ];
         $scope.subject = '';
         $scope.content = '';
@@ -67,7 +67,13 @@ LeMailModule.controller('newEmailController',
                 })
             ).success(function(response){
                     if (response.status == 0){
-                        alert('发送成功');
+                        $scope.message = '发送成功';
+                        ngDialog.openConfirm({
+                            template: '/template/alert.html',
+                            scope: $scope
+                        }).then(function () {
+                            window.location = '/#/handler/todo';
+                        });
                         $scope.Init();
                     } else {
                         alert(response.message);
@@ -88,9 +94,13 @@ LeMailModule.controller('newEmailController',
                 })
             ).success(function(response){
                 if (response.status == 0){
-                    alert('回复成功');
-                    //$location.path('/handler/todo');
-                    window.location = '/#/handler/todo';
+                    $scope.message = '发送成功';
+                    ngDialog.openConfirm({
+                        template: '/template/alert.html',
+                        scope: $scope
+                    }).then(function () {
+                        window.location = '/#/handler/todo';
+                    });
                 } else {
                     alert(response.message);
                 }
@@ -100,14 +110,21 @@ LeMailModule.controller('newEmailController',
         }
 
         $scope.Send = function() {
-            if ($scope.tolist.length == 0) { return alert('请填写收件人');  }
+            if ($scope.tolist.length == 0) { return alert('请填写收件人'); }
             if ($scope.subject.length == 0) { return alert('请填写主题'); }
             if ($scope.content.length == 0) {
-                if (!confirm('你确定要发送空内容么?')) { return; }
+                $scope.message = '你确定要发送空内容么？';
+            } else {
+                $scope.message = '确认发送？';
             }
-            if ($scope.mail_id == 0)
-                send_new();
-            else send_reply();
+            ngDialog.openConfirm({
+                template: '/template/dialog.html',
+                scope: $scope
+            }).then(function () {
+                if ($scope.mail_id == 0)
+                    send_new();
+                else send_reply();
+            });
         };
 
 
