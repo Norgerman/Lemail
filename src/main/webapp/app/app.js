@@ -21,6 +21,8 @@ LeMailModule.config(['$routeProvider', "$httpProvider", function($routeProvider,
         templateUrl: '/template/dispatcher.html'
     }).when('/reviewer/:type',{
         templateUrl: '/template/reviewer/review.html'
+    }).when('/reviewer/reply/:mail_id',{
+        templateUrl: '/template/reviewer/reply.html'
     }).when('/handler/todo',{
         templateUrl: '/template/handler/todo.html'
     }).when('/handler/done',{
