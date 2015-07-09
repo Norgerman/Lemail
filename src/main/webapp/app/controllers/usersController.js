@@ -97,6 +97,8 @@ LeMailModule.controller('usersController',
                 console.log(response);
                 if (response.status == 0){
                     $scope.users = response.data.list;
+                    $scope.pageSum = response.data.sum;
+                    $scope.pageNum = response.data.page;
                     $scope.saved_users = clone($scope.users);
                 }else{
                     alert(response.message);

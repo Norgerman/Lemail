@@ -67,7 +67,8 @@ LeMailModule.controller('distributeListController',
             }
         }).success(function(response){
             if (response.status == 0) {
-                $location.path('/dispatcher');
+                //$location.path('/dispatcher');
+                window.location = '/#/dispatcher';
             }
         }).error(function(response){
             console.log(response);
