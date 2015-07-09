@@ -35,7 +35,7 @@ LeMailModule.controller('distributListController',
                 url: '/api/dispatcher/getall',
                 method: 'GET',
                 params: {page: 0}
-            }).success(function (response, status, headers, config) {
+            }).success(function (response) {
                 console.log(response);
                 if (response.status == 0) {
                     $scope.mail_list = response.data.list;
@@ -52,7 +52,7 @@ LeMailModule.controller('distributListController',
             $http({
                 url: '/api/message/getmsgs',
                 method: 'GET'
-            }).success(function (response, status, headers, config) {
+            }).success(function (response) {
                 console.log(response);
                 if (response.status == 0) {
                     $scope.messages = response.data;
