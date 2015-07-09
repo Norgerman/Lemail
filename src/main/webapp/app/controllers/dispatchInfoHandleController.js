@@ -9,7 +9,7 @@ LeMailModule.controller('dispatchInfoHandleController',
                  if ($scope.msg != ""){
                      $scope.msginfo = {
                          to: $scope.$parent.to_id,
-                         content:$scope.msg
+                         content:"分发|"+$scope.msg
                      };
                      $http({
                          url: '/api/message/send',
