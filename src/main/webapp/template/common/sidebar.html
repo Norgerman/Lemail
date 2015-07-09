@@ -4,8 +4,10 @@
         <div class="division-div">
             <span class="grey" ng-bind="sidebarItems[key]['title']"></span>
         </div>
-        <li ng-repeat="item in sidebarItems[key]['item']">
-            <a class="white" ng-href="{{item.url}}">
+        <li ng-repeat="item in sidebarItems[key]['item']"
+                ng-click="sidebarOnClick(key,$index)">
+            <a class="white" ng-href="{{item.url}}"
+               ng-class="activeItem.key == key && activeItem.index == $index ? 'link-active' : ''">
                 <span><i ng-class="item.icon"></i> {{item.name}}</span>
             </a>
             <!--<a class    ="white" ng-click="changeMainContent(sidebarItems[key]['url'][$index])">{{item}}</a>-->

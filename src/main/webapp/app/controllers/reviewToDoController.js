@@ -33,6 +33,9 @@ LeMailModule.controller('reviewToDoController', ['$scope', '$http', '$location',
 
         $scope.review_list = [];
         $scope.gotoReply = function(id){
+            if($scope.isReviewed){
+                return;
+            }
             window.location = "/#/reviewer/reply/"+id;
         }
     }]);
