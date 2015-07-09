@@ -48,6 +48,21 @@ LeMailModule.controller('distributListController',
             }).error(function (response, status, headers, config) {
                 console.log(response);
             });
+
+            $http({
+                url: '/api/message/getmsgs',
+                method: 'GET'
+            }).success(function (response, status, headers, config) {
+                console.log(response);
+                if (response.status == 0) {
+                    $scope.messages = response.data;
+                } else {
+                    alert(response.message);
+                }
+            }).error(function (response, status, headers, config) {
+                console.log(response);
+            });
+
         };
 
         $scope.getMore = function(pageNum) {
