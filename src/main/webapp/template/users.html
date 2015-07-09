@@ -17,7 +17,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="u in users" ng-mousedown="onSaveOld(u)" ng-click="onSelectLine($index)">
+                    <tr ng-repeat="u in users track by $index" ng-click="onSelectLine($index)">
                         <td>{{u.id}}</td>
                         <td>{{u.username}}</td>
                         <td ng-if="edit_line!=$index">{{u.name}}</td>
@@ -26,7 +26,7 @@
                             <input type="text" ng-model="u.name"/>
                         </td>
                         <td ng-if="edit_line==$index">
-                            <input type="password" ng-model="u.password"/>
+                            <input type="password" ng-model="u.show_password"/>
                         </td>
                         <td>
                             <label><input type="checkbox" ng-model="u.roles.dispatcher"> 分发</label>&nbsp;
@@ -40,7 +40,7 @@
                         <td ng-if="edit_line==$index">
                             <select ng-model="show_checker"
                                     ng-options="dep as dep.name for dep in checkers"
-                                    ng-change="select_checker(u, show_checker)"
+                                    ng-change="select_checker(show_checker)"
                                     style="width: 100px" >
                                 <option></option>
                             </select>
