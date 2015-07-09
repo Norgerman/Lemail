@@ -128,7 +128,7 @@ public class Reviewer {
         String role = (String) Action.getSession("role");
         if (uid == null)
             throw new ApiException(401, "用户未登录");
-        if (!role.contains("D"))
+        if (!role.contains("R"))
             throw new ApiException(403, "权限不足");
     }
 
