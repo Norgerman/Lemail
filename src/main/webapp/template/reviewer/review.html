@@ -12,7 +12,7 @@
                     <td>标题</td>
                     <td>处理时间</td>
                 </tr>
-                <tr ng-repeat="review in review_list">
+                <tr ng-repeat="review in review_list" ng-click="gotoReply(review.id)">
                     <td></td>
                     <td>{{review.checker.name}}</td>
                     <td>{{review.subject}}</td>
