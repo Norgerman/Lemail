@@ -37,7 +37,7 @@
                 </td>
             </tr>
         </table>
-        <nav ng-if="pageSum * 10 + pageNum >= 10">
+        <nav ng-if="(pageSum-1) * 10 + pageNum >= 10">
             <ul class="pagination">
                 <li ng-click="getMore(0)">
                     <a href="javascript:void(0)" aria-label="Previous">
