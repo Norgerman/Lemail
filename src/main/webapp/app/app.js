@@ -116,6 +116,7 @@ LeMailModule.controller('LeMailController',
             $scope.$on('login', function (event, data, role) {
                 $scope.user = data;
                 $scope.title = "欢迎使用Lemail";
+                $scope.activeItem.key = role;
                 //console.log("..."+$scope.sidebarItems[role]["item"][0]["url"].substr(2));
                 $location.path($scope.sidebarItems[role]["item"][0]["url"].substr(2));
             });
@@ -133,6 +134,16 @@ LeMailModule.controller('LeMailController',
                 }).error(function (response) {
 
                 });
+            };
+
+            $scope.activeItem = {
+                key: 'dispatcher',
+                index: 0
+            };
+
+            $scope.sidebarOnClick = function(key, index){
+                $scope.activeItem.key = key;
+                $scope.activeItem.index = index;
             };
 
             $scope.load = function () {
