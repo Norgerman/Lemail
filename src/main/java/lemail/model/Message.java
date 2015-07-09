@@ -103,7 +103,13 @@ public class Message implements Serializable {
 
     public String toJson() {
         SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        this.content=from.getName()+"|"+content;
+        String[] contentstrs = this.content.split("\\|");
+        if (contentstrs!=null){
+            if (contentstrs[0].equals("分发")){
+                this.content = from.getName()+"将邮件分发给您处理："+contentstrs[1];
+            }
+
+        }
         return String.format("{\"id\":%d,\"to\":%d,\"from\":%s,\"date\":\"%s\"," +
                         "\"content\":\"%s\",\"state\":%d,\"mail\":%s}",
                 id, to, from.toSimpleJson(),
