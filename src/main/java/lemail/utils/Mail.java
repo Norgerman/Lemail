@@ -61,6 +61,7 @@ public class Mail {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.user", username);
         props.put("mail.smtp.password", password);
+        props.put("mail.smtp.starttls.enable", "false");
 
         Session session = Session.getDefaultInstance(props, auth);
         session.setDebug(true);
